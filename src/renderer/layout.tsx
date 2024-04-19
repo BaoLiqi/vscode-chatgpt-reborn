@@ -10,7 +10,6 @@ import { ActionRunState, setActionError, setActionState } from "./store/action";
 import {
   ApiKeyStatus,
   setApiKeyStatus,
-  setChatGPTModels,
   setExtensionSettings,
   setTranslations,
 } from "./store/app";
@@ -26,7 +25,7 @@ import {
   updateMessage,
   updateMessageContent,
 } from "./store/conversation";
-import { Conversation, Message, Model, Role } from "./types";
+import { Conversation, Message, Role } from "./types";
 import { unEscapeHTML } from "./utils";
 import Actions from "./views/actions";
 import Chat from "./views/chat";
@@ -46,7 +45,6 @@ export default function Layout({ vscode }: { vscode: any }) {
   const settings = useAppSelector((state: any) => state.app.extensionSettings);
   const debug = useAppSelector((state: any) => state.app.debug);
   const apiKeyStatus = useAppSelector((state: any) => state.app?.apiKeyStatus);
-  const chatGPTModels = useAppSelector((state: any) => state.app.chatGPTModels);
   const useEditorSelection = useAppSelector(
     (state: any) => state.app.useEditorSelection
   );
@@ -56,12 +54,6 @@ export default function Layout({ vscode }: { vscode: any }) {
     if (Object.keys(settings).length === 0) {
       vscode.postMessage({
         type: "getSettings",
-      });
-    }
-    // Ask for ChatGPT models
-    if (chatGPTModels.length === 0) {
-      vscode.postMessage({
-        type: "getChatGPTModels",
       });
     }
     if (apiKeyStatus === ApiKeyStatus.Unknown) {
@@ -376,24 +368,6 @@ export default function Layout({ vscode }: { vscode: any }) {
               conversationId: currentConversationId,
               verbosity: data.value.verbosity,
             })
-          );
-        }
-        break;
-      case "chatGPTModels":
-        if (debug) {
-          console.log("Renderer - ChatGPT models: ", data.value);
-        }
-
-        //  convert model object array from OpenAI to array of Model objects
-        if (data?.value?.map) {
-          dispatch(
-            setChatGPTModels({
-              models: data?.value as Model[],
-            })
-          );
-        } else {
-          console.error(
-            "Renderer - Could not get ChatGPT models, data.value is not an array"
           );
         }
         break;

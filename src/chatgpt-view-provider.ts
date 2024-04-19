@@ -10,9 +10,6 @@ import { loadTranslations } from './localization';
 import { ActionNames, Conversation, Message, Model, Role, Verbosity } from "./renderer/types";
 import { unEscapeHTML } from "./renderer/utils";
 
-// At the moment, gpt-4-1106-preview means "GPT-4 Turbo"
-const CHATGPT_MODELS = ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4-1106-preview', 'gpt-4', 'gpt-4-32k'];
-
 export interface ApiRequestOptions {
 	command: string,
 	conversation: Conversation,
@@ -43,7 +40,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 		actionName?: string,
 		controller: AbortController;
 	}[] = [];
-	private chatGPTModels: Model[] = [];
+
 	private authStore?: Auth;
 
 	public currentConversation?: Conversation;
@@ -81,9 +78,9 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 		// Check config settings for "chatgpt.gpt3.apiKey", if it exists, move it to the secret storage and remove it from the config
 		const apiKey = vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiKey") as string;
-		if (apiKey) {
+		if (apiKey && apiKey !== '-') {
 			this.authStore.storeAuthData(apiKey);
-			vscode.workspace.getConfiguration("chatgpt").update("gpt3.apiKey", undefined, true);
+			vscode.workspace.getConfiguration("chatgpt").update("gpt3.apiKey", '-', true);
 		}
 
 		// Check config settings for "chatgpt.gpt3.apiBaseUrl", if it is set to "https://api.openai.com", change it to "https://api.openai.com/v1"
@@ -190,7 +187,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 	// Param is optional - if provided, it will change the API key to the provided value
 	// This func validates the API key against the OpenAI API (and notifies the webview of the result)
-	// If valid it updates the chatGPTModels array (and notifies the webview of the available models)
 	public async updateApiKeyState(apiKey: string = '') {
 		if (apiKey) {
 			// Run the setOpenAIApiKey command
@@ -204,17 +200,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			value: valid,
 		});
 
-		if (valid) {
-			// Get an updated list of models
-			this.getChatGPTModels(models).then(async (models) => {
-				this.chatGPTModels = models;
 
-				this.sendMessage({
-					type: "chatGPTModels",
-					value: this.chatGPTModels
-				});
-			});
-		}
 	}
 
 	private async rebuildApiProvider() {
@@ -356,12 +342,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					} else {
 						console.error("Main Process - No conversation to export to markdown");
 					}
-					break;
-				case "getChatGPTModels":
-					this.sendMessage({
-						type: "chatGPTModels",
-						value: this.chatGPTModels
-					});
 					break;
 				case "changeApiUrl":
 					this.updateApiUrl(data.value);
@@ -520,10 +500,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 		return !!this.model?.startsWith("code-");
 	}
 
-	private async getApiKey(): Promise<string> {
-		return await vscode.commands.executeCommand('chatgptReborn.getOpenAIApiKey') ?? '';
-	}
-
 	async isGoodApiKey(apiKey: string = ''): Promise<{
 		valid: boolean,
 		models?: any[],
@@ -540,36 +516,9 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			};
 		}
 
-		let configuration: ClientOptions = {
-			apiKey,
+		return {
+			valid: apiKey !== "-"
 		};
-
-		// if the organization id is set in settings, use it
-		const organizationId = await vscode.workspace.getConfiguration("chatgpt").get("organizationId") as string;
-		if (organizationId) {
-			configuration.organization = organizationId;
-		}
-
-		// if the api base url is set in settings, use it
-		const apiBaseUrl = await vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") as string;
-		if (apiBaseUrl) {
-			configuration.baseURL = apiBaseUrl;
-		}
-
-		try {
-			const openai = new OpenAI(configuration);
-			const response = await openai.models.list();
-
-			return {
-				valid: true,
-				models: response.data
-			};
-		} catch (error) {
-			console.error('Main Process - Error getting models', error);
-			return {
-				valid: false,
-			};
-		}
 	}
 
 	async getModels(): Promise<any[]> {
@@ -600,20 +549,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 		} catch (error) {
 			console.error('Main Process - Error getting models', error);
 			return [];
-		}
-	}
-
-	async getChatGPTModels(fullModelList: any[] = []): Promise<Model[]> {
-		if (fullModelList?.length && fullModelList?.length > 0) {
-			return fullModelList.filter((model: any) => CHATGPT_MODELS.includes(model.id)).map((model: any) => {
-				return model.id as Model;
-			});
-		} else {
-			const models = await this.getModels();
-
-			return models.filter((model: any) => CHATGPT_MODELS.includes(model.id)).map((model: any) => {
-				return model.id as Model;
-			});
 		}
 	}
 
@@ -827,7 +762,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 			console.error("api-request-failed info:", JSON.stringify(error, null, 2));
 			console.error("api-request-failed error obj:", error);
-
 			// For whatever reason error.status is undefined, but the below works
 			const status = JSON.parse(JSON.stringify(error)).status ?? error?.status ?? error?.response?.status ?? error?.response?.data?.error?.status;
 

@@ -8,7 +8,7 @@ import {
   setInProgress,
   updateUserInput,
 } from "../store/conversation";
-import { Conversation, MODEL_TOKEN_LIMITS, Model } from "../types";
+import { Conversation, MODEL_TOKEN_LIMITS } from "../types";
 import Icon from "./Icon";
 import ModelSelect from "./ModelSelect";
 import MoreActionsMenu from "./MoreActionsMenu";
@@ -117,6 +117,20 @@ export default ({
         ).dataset.replicatedValue = "";
       }
     }
+  };
+
+  const isTokenQuantityExceeded = () => {
+    if (!currentConversation){return true;}
+    if (!currentConversation.model){return true;}
+
+    let current_model: string = currentConversation?.model;
+    if (!(current_model in MODEL_TOKEN_LIMITS)) {
+      return false;
+    }
+    return (
+      parseInt(tokenCountLabel) >
+      MODEL_TOKEN_LIMITS[current_model].context
+    );
   };
 
   return (
@@ -306,10 +320,7 @@ export default ({
                   : "duration-500"
               }
                 ${
-                  parseInt(tokenCountLabel) >
-                  MODEL_TOKEN_LIMITS[
-                    currentConversation?.model ?? Model.gpt_35_turbo
-                  ].context
+                 isTokenQuantityExceeded()
                     ? "duration-200 bg-red-700 bg-opacity-20"
                     : ""
                 }

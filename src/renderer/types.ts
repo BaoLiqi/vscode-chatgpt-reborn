@@ -35,17 +35,12 @@ export enum Model {
   // Prompt completion models - Not yet supported in this extension
   babbage_002 = "babbage-002",
   davinci_002 = "davinci-002",
+  wizard = "microsoft/wizardlm-2-8x22b",
+  mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
+  free = "mistralai/mistral-7b-instruct:free",
+  haiku = "anthropic/claude-3-haiku:beta",
+  none = "none"
 }
-
-export const MODEL_FRIENDLY_NAME = {
-  [Model.gpt_4_turbo]: "GPT-4 Turbo",
-  [Model.gpt_4]: "GPT-4",
-  [Model.gpt_4_32k]: "GPT-4 32k",
-  [Model.gpt_35_turbo]: "GPT-3.5 Turbo",
-  [Model.gpt_35_turbo_16k]: "GPT-3.5 Turbo 16k",
-  [Model.babbage_002]: "Babbage 002",
-  [Model.davinci_002]: "Davinci 002",
-};
 
 // source: https://openai.com/pricing
 export const MODEL_COSTS = {
@@ -76,6 +71,10 @@ export const MODEL_COSTS = {
   [Model.davinci_002]: {
     prompt: 0.002,
     complete: 0.002,
+  },
+  [Model.wizard]: {
+    prompt: 0.00065,
+    complete: 0.00065,
   },
 } as {
   [model: string]: {

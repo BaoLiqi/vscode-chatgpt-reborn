@@ -1,7 +1,6 @@
 import { encoding_for_model, Tiktoken, TiktokenModel } from "@dqbd/tiktoken";
 import OpenAI, { ClientOptions } from 'openai';
-import { v4 as uuidv4 } from "uuid";
-import { Conversation, Message, Model, MODEL_TOKEN_LIMITS, Role } from "./renderer/types";
+import { Conversation, Message, Model, Role } from "./renderer/types";
 
 export class ApiProvider {
   private _openai: OpenAI;
@@ -31,35 +30,11 @@ export class ApiProvider {
     this.apiConfig = {
       apiKey: apiKey,
       organization: organizationId,
-      // baseURL: apiBaseUrl,
+      baseURL: apiBaseUrl,
     };
     this._openai = new OpenAI(this.apiConfig);
     this._temperature = temperature;
     this._topP = topP;
-  }
-
-  getRemainingTokens(model: Model, promptTokensUsed: number) {
-    const modelContext = MODEL_TOKEN_LIMITS[model].context;
-    const modelMax = MODEL_TOKEN_LIMITS[model].max;
-
-    // OpenAI's maxTokens is used as max (prompt + complete) tokens
-    // We must calculate total context window - prompt tokens being sent to determine max response size
-    // This is complicated by the fact that some models have a max token completion limit
-    let tokensLeft = 4096;
-
-    if (modelMax !== undefined) {
-      // Models with a max token limit (ie gpt-4-turbo)
-      tokensLeft = Math.min(modelContext - promptTokensUsed, modelMax);
-    } else {
-      // Models without a max token limit (ie gpt-4)
-      tokensLeft = modelContext - promptTokensUsed;
-    }
-
-    if (tokensLeft < 0) {
-      throw new Error(`This conversation uses ${promptTokensUsed} tokens, but this model (${model}) only supports ${modelContext} context tokens. Please reduce the amount of code you're including, clear the conversation to reduce past messages size or use a different model with a bigger prompt token limit.`);
-    }
-
-    return tokensLeft;
   }
 
   // OpenAI's library doesn't support streaming, but great workaround from @danneu - https://github.com/openai/openai-node/issues/18#issuecomment-1483808526
@@ -70,9 +45,8 @@ export class ApiProvider {
     temperature?: number;
     topP?: number;
   } = {}): AsyncGenerator<any, any, unknown> {
-    const model = conversation.model ?? Model.gpt_35_turbo;
-    const promptTokensUsed = ApiProvider.countConversationTokens(conversation);
-    const completeTokensLeft = this.getRemainingTokens(model, promptTokensUsed);
+    // if (!conversation.model) { throw new Error("model is undefined"); }
+    const model = conversation.model ?? Model.free;
 
     // Only stream if not using a proxy
     const useStream = true; // this.apiConfig.basePath === 'https://api.openai.com/v1';
@@ -83,7 +57,7 @@ export class ApiProvider {
           role: message.role,
           content: message.content,
         })),
-        max_tokens: completeTokensLeft,
+        // max_tokens: completeTokensLeft,
         temperature,
         top_p: topP,
         stream: useStream,
@@ -107,85 +81,9 @@ export class ApiProvider {
     }
   }
 
-  async getChatCompletion(conversation: Conversation, {
-    temperature = this._temperature,
-    topP = this._topP,
-  }: {
-    temperature?: number;
-    topP?: number;
-  } = {}): Promise<OpenAI.Chat.Completions.ChatCompletionMessage | undefined> {
-    const model = conversation.model ?? Model.gpt_35_turbo;
-    const promptTokensUsed = ApiProvider.countConversationTokens(conversation);
-    const completeTokensLeft = this.getRemainingTokens(model, promptTokensUsed);
-
-    const response = await this._openai.chat.completions.create(
-      {
-        model,
-        messages: conversation.messages.map((message) => ({
-          role: message.role,
-          content: message.content,
-        })),
-        stream: false,
-        max_tokens: completeTokensLeft,
-        temperature,
-        top_p: topP,
-      }
-    );
-
-    return response.choices[0].message;
-  }
-
-  // Note: PromptCompletion is LEGACY
-  // Using prompt as a param instead of the last message in the conversation to
-  // allow for special formatting of the prompt before sending it to OpenAI
-  async getPromptCompletion(prompt: string, conversation: Conversation, {
-    temperature = this._temperature,
-    topP = this._topP,
-  }: {
-    temperature?: number;
-    topP?: number;
-  } = {}): Promise<Message | undefined> {
-    const model = conversation.model ?? Model.gpt_35_turbo;
-    const promptTokensUsed = ApiProvider.countConversationTokens(conversation);
-    const completeTokensLeft = this.getRemainingTokens(model, promptTokensUsed);
-
-    const response = await this._openai.chat.completions.create(
-      {
-        model,
-        messages: [{ "role": "user", "content": prompt }],
-        max_tokens: completeTokensLeft,
-        temperature,
-        top_p: topP,
-        stream: false,
-      }
-    );
-
-    return {
-      id: uuidv4(),
-      content: response.choices[0].message.content ?? '',
-      rawContent: response.choices[0].message.content ?? '',
-      role: Role.assistant,
-      createdAt: Date.now(),
-    };
-  }
-
-  // * Utility token counting methods
-  // Use this.getEncodingForModel() instead of encoding_for_model() due to missing model support
+  // treat any model as gpt35
   public static getEncodingForModel(model: Model): Tiktoken {
-    let adjustedModel = model;
-
-    switch (model) {
-      case Model.gpt_35_turbo_16k:
-        // June 27, 2023 - Tiktoken@1.0.7 does not recognize the 3.5-16k model version.
-        adjustedModel = Model.gpt_35_turbo;
-        break;
-      case Model.gpt_4_turbo:
-        // Nov 24, 2023 - Adding gpt-4-turbo, will update tiktoken at another date
-        adjustedModel = Model.gpt_4;
-        break;
-    }
-
-    return encoding_for_model(adjustedModel as TiktokenModel);
+    return encoding_for_model(Model.gpt_35_turbo as TiktokenModel);
   }
 
   public static countConversationTokens(conversation: Conversation): number {
