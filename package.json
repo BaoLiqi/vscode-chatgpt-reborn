@@ -465,14 +465,13 @@
         "chatgpt.gpt3.model": {
           "type": "string",
           "enum": [
-            "gpt-4-1106-preview",
-            "gpt-4",
-            "gpt-4-32k",
+            "gpt-4-0409-preview",
             "gpt-3.5-turbo",
             "gpt-3.5-turbo-16k",
             "mistralai-mistral-7b-instruct-free",
             "microsoft/wizardlm-2-8x22b",
             "mistralai/mixtral-8x22b-instruct",
+            "meta-llama/llama-3-70b-instruct:nitro",
             "anthropic/claude-3-haiku:beta"
           ],
           "default": "gpt-3.5-turbo",

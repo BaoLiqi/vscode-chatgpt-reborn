@@ -11,9 +11,10 @@ const models = [
   { name: "free", model: Model.free },
   { name: "wizardlm-2", model: Model.wizard },
   { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
+  { name: "llama3-70b", model: Model.llama3_70b },
   { name: "haiku", model: Model.haiku },
-  { name: "gpt-3.5-turbo", model: Model.gpt_35_turbo },
-  { name: "gpt-4-turbo", model: Model.gpt_4_turbo },
+  // { name: "gpt-3.5-turbo", model: Model.gpt_35_turbo },
+  // { name: "gpt-4-turbo", model: Model.gpt_4_turbo },
 ];
 
 export default function ModelSelect({
@@ -57,20 +58,22 @@ export default function ModelSelect({
     setShowModels(false);
   };
 
-const friendlyName = (model: string): string => {
-  switch (model) {
-    case Model.wizard:
-      return "WizardLM-2";
-    case Model.free:
-      return "mistral-7b";
-    case Model.mistral8x22b_instruct:
-      return "mistral-8x22";
-    case Model.haiku:
-      return "haiku";
-    default:
-      return model;
-  }
-};
+  const friendlyName = (model: string): string => {
+    switch (model) {
+      case Model.wizard:
+        return "WizardLM-2";
+      case Model.free:
+        return "mistral-7b";
+      case Model.mistral8x22b_instruct:
+        return "mistral-8x22";
+      case Model.llama3_70b:
+        return "llama3";
+      case Model.haiku:
+        return "haiku";
+      default:
+        return model;
+    }
+  };
 
   return (
     <>
@@ -84,7 +87,7 @@ const friendlyName = (model: string): string => {
           data-tooltip-content="Change the AI model being used"
         >
           <Icon icon="box" className="w-3 h-3 mr-1" />
-          {friendlyName(currentConversation.model??Model.none)}
+          {friendlyName(currentConversation.model ?? Model.none)}
         </button>
         <div
           className={`fixed items-center more-menu border text-menu bg-menu border-menu shadow-xl text-xs rounded

@@ -37,6 +37,7 @@ export enum Model {
   davinci_002 = "davinci-002",
   wizard = "microsoft/wizardlm-2-8x22b",
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
+  llama3_70b = "meta-llama/llama-3-70b-instruct:nitro",
   free = "mistralai/mistral-7b-instruct:free",
   haiku = "anthropic/claude-3-haiku:beta",
   none = "none"
