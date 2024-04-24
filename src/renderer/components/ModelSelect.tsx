@@ -13,8 +13,6 @@ const models = [
   { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
   { name: "llama3-70b", model: Model.llama3_70b },
   { name: "haiku", model: Model.haiku },
-  // { name: "gpt-3.5-turbo", model: Model.gpt_35_turbo },
-  // { name: "gpt-4-turbo", model: Model.gpt_4_turbo },
 ];
 
 export default function ModelSelect({
@@ -61,11 +59,11 @@ export default function ModelSelect({
   const friendlyName = (model: string): string => {
     switch (model) {
       case Model.wizard:
-        return "WizardLM-2";
+        return "Wizard2";
       case Model.free:
-        return "mistral-7b";
+        return "M-7";
       case Model.mistral8x22b_instruct:
-        return "mistral-8x22";
+        return "M-8x22";
       case Model.llama3_70b:
         return "llama3";
       case Model.haiku:
