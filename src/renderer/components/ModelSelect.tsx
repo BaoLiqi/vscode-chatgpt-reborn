@@ -12,6 +12,7 @@ const models = [
   { name: "wizardlm-2", model: Model.wizard },
   { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
   { name: "llama3-70b", model: Model.llama3_70b },
+  { name: "llama3-nitro", model: Model.llama3_70b_nitro },
   { name: "haiku", model: Model.haiku },
 ];
 
@@ -66,6 +67,8 @@ export default function ModelSelect({
         return "M-8x22";
       case Model.llama3_70b:
         return "llama3";
+      case Model.llama3_70b_nitro:
+        return "l3n";
       case Model.haiku:
         return "haiku";
       default:
