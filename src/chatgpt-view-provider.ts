@@ -582,7 +582,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			}
 
 			// Add prompt prefix to the code if there was a code block selected
-			question = `${question}. ${verbosity} ${language ? ` The following code is in ${language} programming language.` : ''} Code in question:\n\n###\n\n\`\`\`${language}\n${code}\n\`\`\``;
+			question = `${question}. ${verbosity} Selection:\n\n###\n\n\`\`\`${code}\n\`\`\``;
 		} else {
 			question = `${question}. ${verbosity}`;
 		}
