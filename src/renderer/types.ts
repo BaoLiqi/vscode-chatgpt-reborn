@@ -27,6 +27,7 @@ export enum Role {
 
 export enum Model {
   // ChatGPT
+  gpt_4o = "openai/gpt-4o",
   gpt_4_turbo = "gpt-4-1106-preview",
   gpt_4 = "gpt-4",
   gpt_4_32k = "gpt-4-32k",
