@@ -42,6 +42,7 @@ export enum Model {
   llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
   free = "mistralai/mistral-7b-instruct:free",
   haiku = "anthropic/claude-3-haiku:beta",
+  gemini_flash = "google/gemini-flash-1.5",
   none = "none"
 }
 
