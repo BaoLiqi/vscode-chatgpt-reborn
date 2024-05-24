@@ -15,6 +15,7 @@ const models = [
   { name: "llama3-nitro", model: Model.llama3_70b_nitro },
   { name: "haiku", model: Model.haiku },
   { name: "gpt-4o", model: Model.gpt_4o },
+  { name: "gpt4turbo", model: Model.gpt_4_turbo },
   { name: "gemini",model:Model.gemini_flash}
 ];
 
@@ -75,6 +76,8 @@ export default function ModelSelect({
         return "haiku";
       case Model.gpt_4o:
         return "gpt-4o";
+      case Model.gpt_4_turbo:
+        return "4turbo";
       case Model.gemini_flash:
         return "gf1.5";
       default:
