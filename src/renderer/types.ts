@@ -43,6 +43,7 @@ export enum Model {
   free = "mistralai/mistral-7b-instruct:free",
   haiku = "anthropic/claude-3-haiku:beta",
   gemini_flash = "google/gemini-flash-1.5",
+  gemini_pro = "google/gemini-pro-1.5",
   none = "none"
 }
 

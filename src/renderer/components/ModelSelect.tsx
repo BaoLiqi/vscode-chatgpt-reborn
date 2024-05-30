@@ -8,15 +8,16 @@ import {
 import Icon from "./Icon";
 
 const models = [
-  { name: "free", model: Model.free },
-  { name: "wizardlm-2", model: Model.wizard },
-  { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
-  { name: "llama3-70b", model: Model.llama3_70b },
+  // { name: "free", model: Model.free },
+  // { name: "wizardlm-2", model: Model.wizard },
+  // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
+  // { name: "llama3-70b", model: Model.llama3_70b },
   { name: "llama3-nitro", model: Model.llama3_70b_nitro },
-  { name: "haiku", model: Model.haiku },
-  { name: "gpt-4o", model: Model.gpt_4o },
+  // { name: "haiku", model: Model.haiku },
+  // { name: "gpt-4o", model: Model.gpt_4o },
   { name: "gpt4turbo", model: Model.gpt_4_turbo },
-  { name: "gemini",model:Model.gemini_flash}
+  { name: "gemini-flash",model:Model.gemini_flash},
+  { name: "gemini-pro",model:Model.gemini_pro}
 ];
 
 export default function ModelSelect({
@@ -80,6 +81,8 @@ export default function ModelSelect({
         return "4turbo";
       case Model.gemini_flash:
         return "gf1.5";
+      case Model.gemini_pro:
+        return "g-pro";
       default:
         return model;
     }
