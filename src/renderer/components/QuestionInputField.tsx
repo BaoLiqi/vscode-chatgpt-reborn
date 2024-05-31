@@ -250,19 +250,21 @@ export default ({
       {!settings?.minimalUI && (
         <div className="flex flex-wrap xs:flex-nowrap flex-row justify-between gap-x-2 px-4 overflow-x-auto">
           <div className="flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
-            <ModelSelect
-              currentConversation={currentConversation}
-              vscode={vscode}
-              conversationList={conversationList}
-              className="hidden xs:block"
-              tooltipId="footer-tooltip"
-            />
+            
             <VerbositySelect
               currentConversation={currentConversation}
               vscode={vscode}
               className="hidden xs:block"
               tooltipId="footer-tooltip"
             />
+            <ModelSelect
+              currentConversation={currentConversation}
+              vscode={vscode}
+              conversationList={conversationList}
+              className="display:block"
+              tooltipId="footer-tooltip"
+            />
+
             <button
               className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 whitespace-nowrap
                 ${
