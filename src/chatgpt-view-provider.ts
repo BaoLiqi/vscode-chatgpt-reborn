@@ -360,7 +360,9 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					vscode.workspace.getConfiguration("chatgpt").update("verbosity", verbosity, vscode.ConfigurationTarget.Global);
 					break;
 				case "setCurrentConversation":
-					this.currentConversation = data.conversation;
+					if (data.convention) {
+						this.currentConversation = data.conversation;
+					}
 					break;
 				case 'getTokenCount':
 					const convTokens = ApiProvider.countConversationTokens(data.conversation);

@@ -70,7 +70,7 @@ export default function Layout({ vscode }: { vscode: any }) {
       type: "setCurrentConversation",
       conversation: currentConversation,
     });
-  }, [currentConversationId]);
+  }, [currentConversationId,currentConversation.messages]);
 
   // Debounce token count updates
   const debounceTimeout = useRef<any>(null);

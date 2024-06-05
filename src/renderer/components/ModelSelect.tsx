@@ -8,7 +8,7 @@ import {
 import Icon from "./Icon";
 
 const models = [
-  // { name: "free", model: Model.free },
+  { name: "free", model: Model.free },
   // { name: "wizardlm-2", model: Model.wizard },
   // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
   // { name: "llama3-70b", model: Model.llama3_70b },
