@@ -44,6 +44,7 @@ export enum Model {
   haiku = "anthropic/claude-3-haiku:beta",
   gemini_flash = "google/gemini-flash-1.5",
   gemini_pro = "google/gemini-pro-1.5",
+  qwen2 = "qwen/qwen-2-72b-instruct",
   none = "none"
 }
 

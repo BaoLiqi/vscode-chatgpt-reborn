@@ -13,11 +13,13 @@ const models = [
   // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
   // { name: "llama3-70b", model: Model.llama3_70b },
   { name: "llama3-nitro", model: Model.llama3_70b_nitro },
+  { name: "qwen2-72B", model: Model.qwen2 },
   // { name: "haiku", model: Model.haiku },
   // { name: "gpt-4o", model: Model.gpt_4o },
-  { name: "gpt4turbo", model: Model.gpt_4_turbo },
+
   { name: "gemini-flash",model:Model.gemini_flash},
-  { name: "gemini-pro",model:Model.gemini_pro}
+  { name: "gemini-pro",model:Model.gemini_pro},
+  { name: "gpt4turbo", model: Model.gpt_4_turbo },
 ];
 
 export default function ModelSelect({
@@ -73,6 +75,8 @@ export default function ModelSelect({
         return "llama3";
       case Model.llama3_70b_nitro:
         return "l3n";
+      case Model.qwen2:
+        return "qwen2";
       case Model.haiku:
         return "haiku";
       case Model.gpt_4o:
