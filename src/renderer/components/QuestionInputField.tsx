@@ -78,13 +78,23 @@ export default ({
           inProgress: true,
         })
       );
-
+      
       vscode.postMessage({
         type: "addFreeTextQuestion",
         value: questionInputRef.current.value,
         conversation: currentConversation,
         includeEditorSelection: useEditorSelection,
       });
+      // also send the user input to the proofreader
+      const prfd = conversationList.find((conv)=>conv.id==="prfd");
+      if(prfd&& prfd!==currentConversation){
+        vscode.postMessage({
+          type: "proofreader",
+          value: questionInputRef.current.value,
+          conversation: prfd,
+          includeEditorSelection: useEditorSelection,
+        });
+      }
 
       questionInputRef.current.value = "";
       questionInputRef.current.rows = 1;

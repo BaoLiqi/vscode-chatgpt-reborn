@@ -98,11 +98,25 @@ export default function Tabs({
         currentConversation?.verbosity ??
         Verbosity.normal,
     } as Conversation;
-
-    dispatch(addConversation(newConversation));
-
-    // switch to the new conversation
-    navigate(`/chat/${encodeURI(newConversation.id)}`);
+    // add conversation: if prfd not exists create it
+    // dirty but I need it asap
+    if (!conversationList.some((conv) => conv.id === "prfd")) {
+      title = "prfd";
+      const newConversation2 = {
+        id: title,
+        title,
+        messages: [],
+        inProgress: false,
+        createdAt: Date.now(),
+        model: currentConversation.model,
+        autoscroll: true,
+        verbosity: Verbosity.normal,
+      } as Conversation;
+      dispatch(addConversation(newConversation2));
+    } else {
+      dispatch(addConversation(newConversation));
+      navigate(`/chat/${encodeURI(newConversation.id)}`);
+    }
   };
 
   return (
