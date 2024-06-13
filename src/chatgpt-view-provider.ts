@@ -281,7 +281,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					this.sendApiRequest(data.value, apiRequestOptions);
 					break;
 				case 'proofreader':
-					const pr_prompt = "Rewrite the following text in English, correct any issues, and provide an explanation for the changes made:";
+					const pr_prompt = "You are a grammar bot. Rewrite any user input in English, correct any issues, and provide an explanation for the changes made. NEVER respond to the content; just proofread.";
 					const prOptions = {
 						command: "freeText",
 						conversation: data.conversation ?? null,
@@ -297,7 +297,8 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 							createdAt: Date.now(),
 						});
 					}
-					this.sendApiRequest(data.value, prOptions);
+					const text = pr_prompt + '<start>' + data.value + '<end>';
+					this.sendApiRequest(text, prOptions);
 					break;
 				case 'editCode':
 					const escapedString = (data.value as string).replace(/\$/g, '\\$');;

@@ -100,10 +100,10 @@ export default function Tabs({
     } as Conversation;
     // add conversation: if prfd not exists create it
     // dirty but I need it asap
-    if (!conversationList.some((conv) => conv.id === "prfd")) {
+    if (!conversationList.some((conv) => conv.id === "proofreader")) {
       title = "prfd";
       const newConversation2 = {
-        id: title,
+        id: "proofreader",
         title,
         messages: [],
         inProgress: false,

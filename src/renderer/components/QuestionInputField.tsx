@@ -86,7 +86,7 @@ export default ({
         includeEditorSelection: useEditorSelection,
       });
       // also send the user input to the proofreader
-      const prfd = conversationList.find((conv)=>conv.id==="prfd");
+      const prfd = conversationList.find((conv)=>conv.id==="proofreader");
       if(prfd&& prfd!==currentConversation){
         vscode.postMessage({
           type: "proofreader",
