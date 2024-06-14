@@ -9,16 +9,14 @@ import Icon from "./Icon";
 
 const models = [
   { name: "free", model: Model.free },
+  { name: "gemini-flash",model:Model.gemini_flash},
   // { name: "wizardlm-2", model: Model.wizard },
   // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
   // { name: "llama3-70b", model: Model.llama3_70b },
   { name: "llama3-nitro", model: Model.llama3_70b_nitro },
   { name: "qwen2-72B", model: Model.qwen2 },
-  // { name: "haiku", model: Model.haiku },
-  // { name: "gpt-4o", model: Model.gpt_4o },
-
-  { name: "gemini-flash",model:Model.gemini_flash},
   { name: "gemini-pro",model:Model.gemini_pro},
+  { name: "gpt-4o", model: Model.gpt_4o },
   { name: "gpt4turbo", model: Model.gpt_4_turbo },
 ];
 
