@@ -464,14 +464,14 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			if (message.role === Role.user) {
 				role = 'You';
 			} else if (message.role === Role.system) {
-				role = 'System Context';
+				role = 'System';
 			} else if (message.role === Role.assistant) {
-				role = 'ChatGPT';
+				role = 'GPT';
 			}
 			const isError = message.isError ? "ERROR: " : "";
 			const content = message.rawContent ?? message.content;
 
-			let formattedMessage = `<code>**${isError}[${role}]**</code>\n${content}\n\n`;
+			let formattedMessage = `==**${isError}[${role}]**==\n${content.trim()}\n\n`;
 
 			// User included editor code selection in their question?
 			if (message.role === Role.user && message.questionCode) {
