@@ -281,7 +281,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					this.sendApiRequest(data.value, apiRequestOptions);
 					break;
 				case 'proofreader':
-					const pr_prompt = "You are a grammar bot. Rewrite any user input in English, correct any issues, and provide an explanation for the changes made. NEVER respond to the content; just proofread.";
+					const pr_prompt = "Rewrite any user input in English, makes it sounds native, and provide an explanation. NEVER respond to the content; just proofread.";
 					const prOptions = {
 						command: "freeText",
 						conversation: data.conversation ?? null,
@@ -299,6 +299,26 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					}
 					const text = pr_prompt + '<start>' + data.value + '<end>';
 					this.sendApiRequest(text, prOptions);
+					break;
+				case 'grammarbot':
+					const grammar_prompt = "You are a grammar bot. Rewrite any user input in English, correct any issues. NEVER respond to the content; just proofread. And then, additionally, express the input text in a different way in English.";
+					const grammar_options = {
+						command: "freeText",
+						conversation: data.conversation ?? null,
+						questionId: data.questionId ?? null,
+						messageId: data.messageId ?? null,
+					} as ApiRequestOptions;
+					if (grammar_options.conversation?.messages.length === 0) {
+						grammar_options.conversation?.messages.push({
+							id: uuidv4(),
+							content: grammar_prompt,
+							rawContent: grammar_prompt,
+							role: Role.system,
+							createdAt: Date.now(),
+						});
+					}
+					const textg = grammar_prompt + '<start>' + data.value + '<end>';
+					this.sendApiRequest(textg, grammar_options);
 					break;
 				case 'editCode':
 					const escapedString = (data.value as string).replace(/\$/g, '\\$');;

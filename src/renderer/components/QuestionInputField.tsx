@@ -86,12 +86,21 @@ export default ({
         includeEditorSelection: useEditorSelection,
       });
       // also send the user input to the proofreader
-      const prfd = conversationList.find((conv)=>conv.id==="proofreader");
-      if(prfd&& prfd!==currentConversation){
+      const cp = conversationList.find((conv)=>conv.id==="proofreader");
+      if(cp&& cp!==currentConversation){
         vscode.postMessage({
           type: "proofreader",
           value: questionInputRef.current.value,
-          conversation: prfd,
+          conversation: cp,
+          includeEditorSelection: useEditorSelection,
+        });
+      }
+      const cg = conversationList.find((conv)=>conv.id==="grammarbot");
+      if(cg&& cg!==currentConversation){
+        vscode.postMessage({
+          type: "grammarbot",
+          value: questionInputRef.current.value,
+          conversation: cg,
           includeEditorSelection: useEditorSelection,
         });
       }

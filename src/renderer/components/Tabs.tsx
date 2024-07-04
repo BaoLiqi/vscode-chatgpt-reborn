@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { addConversation, removeConversation } from "../store/conversation";
-import { Conversation, Verbosity } from "../types";
+import { Conversation, Model, Verbosity } from "../types";
 import Icon from "./Icon";
 import TabsDropdown from "./TabsDropdown";
 
@@ -75,45 +75,63 @@ export default function Tabs({
     }
   }, [conversationList]);
 
-  const createNewConversation = () => {
-    let title = "Chat";
-    let i = 2;
-    while (
-      conversationList.find((conversation) => conversation.title === title)
-    ) {
-      title = `Chat ${i}`;
-      i++;
-    }
 
-    const newConversation = {
-      id: `${title}-${Date.now()}`,
-      title,
-      messages: [],
-      inProgress: false,
-      createdAt: Date.now(),
-      model: currentConversation.model,
-      autoscroll: true,
-      verbosity:
-        settings?.verbosity ??
-        currentConversation?.verbosity ??
-        Verbosity.normal,
-    } as Conversation;
-    // add conversation: if prfd not exists create it
-    // dirty but I need it asap
+  const createAgent = ()=>{
+   let changed = false;
     if (!conversationList.some((conv) => conv.id === "proofreader")) {
-      title = "prfd";
-      const newConversation2 = {
+      changed=true;
+      const convp = {
         id: "proofreader",
+        title: "prfd",
+        messages: [],
+        inProgress: false,
+        createdAt: Date.now(),
+        model: Model.gpt_4o,
+        autoscroll: true,
+        verbosity: Verbosity.normal,
+      } as Conversation;
+      dispatch(addConversation(convp));
+    }
+    if (!conversationList.some((conv) => conv.id === "grammarbot")) {
+      changed=true;
+      const convg = {
+        id: "grammarbot",
+        title: "gbot",
+        messages: [],
+        inProgress: false,
+        createdAt: Date.now(),
+        model: Model.gpt_4o,
+        autoscroll: true,
+        verbosity: Verbosity.normal,
+      } as Conversation;
+      dispatch(addConversation(convg));
+    }
+    return changed;
+  }
+
+  const createNewConversation = () => {
+    if (!createAgent()) {
+      let title = "Chat";
+      let i = 2;
+      while (
+        conversationList.find((conversation) => conversation.title === title)
+      ) {
+        title = `Chat ${i}`;
+        i++;
+      }
+      const newConversation = {
+        id: `${title}-${Date.now()}`,
         title,
         messages: [],
         inProgress: false,
         createdAt: Date.now(),
         model: currentConversation.model,
         autoscroll: true,
-        verbosity: Verbosity.normal,
+        verbosity:
+          settings?.verbosity ??
+          currentConversation?.verbosity ??
+          Verbosity.normal,
       } as Conversation;
-      dispatch(addConversation(newConversation2));
-    } else {
       dispatch(addConversation(newConversation));
       navigate(`/chat/${encodeURI(newConversation.id)}`);
     }
