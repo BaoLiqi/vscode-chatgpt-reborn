@@ -1,3 +1,4 @@
+import * as he from "he";
 import hljs from 'highlight.js';
 import { marked } from "marked";
 import OpenAI, { ClientOptions } from "openai";
@@ -372,9 +373,9 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					// convert all messages in the conversation to markdown and open a new document with the markdown
 					if (data?.conversation) {
 						const markdown = this.convertMessagesToMarkdown(data.conversation);
-
+						const decode_html_escape = he.decode(markdown);
 						const markdownExport = await vscode.workspace.openTextDocument({
-							content: markdown,
+							content: decode_html_escape,
 							language: 'markdown'
 						});
 
