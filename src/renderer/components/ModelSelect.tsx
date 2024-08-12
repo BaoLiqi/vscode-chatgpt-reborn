@@ -9,13 +9,15 @@ import Icon from "./Icon";
 
 const models = [
   { name: "free", model: Model.free },
-  { name: "gemini-flash",model:Model.gemini_flash},
+  // { name: "gemini-flash",model:Model.gemini_flash},
   // { name: "wizardlm-2", model: Model.wizard },
   // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
   // { name: "llama3-70b", model: Model.llama3_70b },
   { name: "llama3-nitro", model: Model.llama3_70b_nitro },
+  { name: "llama3-405b", model: Model.llama3_405 },
   { name: "qwen2-72B", model: Model.qwen2 },
   { name: "gemini-pro",model:Model.gemini_pro},
+  { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
   { name: "gpt4turbo", model: Model.gpt_4_turbo },
 ];
@@ -73,12 +75,16 @@ export default function ModelSelect({
         return "llama3";
       case Model.llama3_70b_nitro:
         return "l3n";
+      case Model.llama3_405:
+        return "l405";
       case Model.qwen2:
         return "qwen2";
       case Model.haiku:
         return "haiku";
       case Model.gpt_4o:
-        return "gpt-4o";
+        return "gpt-4o86";
+      case Model.gpt_4o_m:
+        return "gpt-4m";
       case Model.gpt_4_turbo:
         return "4turbo";
       case Model.gemini_flash:

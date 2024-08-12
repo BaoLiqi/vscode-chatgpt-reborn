@@ -1,12 +1,13 @@
 all: share install
 
 vsix:
+	rm -f ./*.vsix
 	vsce package
 
-share: vsix
+share: 
 	cp ./*.vsix ~/share
 
-install: vsix
+install: 
 	code --install-extension *.vsix
 
 .PHONY: share install all

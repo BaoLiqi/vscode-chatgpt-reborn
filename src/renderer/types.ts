@@ -26,22 +26,24 @@ export enum Role {
 }
 
 export enum Model {
-  // ChatGPT
-  gpt_4o = "openai/gpt-4o",
+  // 0.15 0.6
+  gpt_4o_m = "openai/gpt-4o-mini",
+  gpt_4o = "openai/gpt-4o-2024-08-06",
   gpt_4_turbo = "openai/gpt-4-turbo",
   gpt_4 = "gpt-4",
   gpt_4_32k = "gpt-4-32k",
   gpt_35_turbo = "gpt-3.5-turbo",
   gpt_35_turbo_16k = "gpt-3.5-turbo-16k",
-  // Prompt completion models - Not yet supported in this extension
   babbage_002 = "babbage-002",
   davinci_002 = "davinci-002",
   wizard = "microsoft/wizardlm-2-8x22b",
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
   llama3_70b = "meta-llama/llama-3-70b-instruct",
   llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
+  llama3_405 = "meta-llama/llama-3.1-405b-instruct",
   free = "mistralai/mistral-7b-instruct:free",
   haiku = "anthropic/claude-3-haiku:beta",
+  // 0.25_0.75
   gemini_flash = "google/gemini-flash-1.5",
   gemini_pro = "google/gemini-pro-1.5",
   qwen2 = "qwen/qwen-2-72b-instruct",
@@ -101,7 +103,6 @@ export const MODEL_TOKEN_LIMITS = {
   [Model.gpt_4_32k]: {
     context: 32768,
   },
-  // TODO: Dec 11, 2023 gpt-35-turbo prompt will become 16385 (but complete will remain 4096)
   [Model.gpt_35_turbo]: {
     context: 4096,
   },
