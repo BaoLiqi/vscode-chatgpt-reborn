@@ -1,4 +1,4 @@
-all: share install
+all: vsix share install
 
 vsix:
 	rm -f ./*.vsix
