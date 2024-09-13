@@ -30,12 +30,7 @@ export enum Model {
   gpt_4o_m = "openai/gpt-4o-mini",
   gpt_4o = "openai/gpt-4o-2024-08-06",
   gpt_4_turbo = "openai/gpt-4-turbo",
-  gpt_4 = "gpt-4",
-  gpt_4_32k = "gpt-4-32k",
   gpt_35_turbo = "gpt-3.5-turbo",
-  gpt_35_turbo_16k = "gpt-3.5-turbo-16k",
-  babbage_002 = "babbage-002",
-  davinci_002 = "davinci-002",
   wizard = "microsoft/wizardlm-2-8x22b",
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
   llama3_70b = "meta-llama/llama-3-70b-instruct",
@@ -56,34 +51,6 @@ export const MODEL_COSTS = {
     prompt: 0.01,
     complete: 0.03,
   },
-  [Model.gpt_4]: {
-    prompt: 0.03,
-    complete: 0.06,
-  },
-  [Model.gpt_4_32k]: {
-    prompt: 0.06,
-    complete: 0.12,
-  },
-  [Model.gpt_35_turbo]: {
-    prompt: 0.0015,
-    complete: 0.002,
-  },
-  [Model.gpt_35_turbo_16k]: {
-    prompt: 0.003,
-    complete: 0.004,
-  },
-  [Model.babbage_002]: {
-    prompt: 0.0004,
-    complete: 0.0004,
-  },
-  [Model.davinci_002]: {
-    prompt: 0.002,
-    complete: 0.002,
-  },
-  [Model.wizard]: {
-    prompt: 0.00065,
-    complete: 0.00065,
-  },
 } as {
   [model: string]: {
     prompt: number;
@@ -97,25 +64,6 @@ export const MODEL_TOKEN_LIMITS = {
     context: 128000,
     max: 4096,
   },
-  [Model.gpt_4]: {
-    context: 8192,
-  },
-  [Model.gpt_4_32k]: {
-    context: 32768,
-  },
-  [Model.gpt_35_turbo]: {
-    context: 4096,
-  },
-  [Model.gpt_35_turbo_16k]: {
-    context: 16385,
-    max: 4096,
-  },
-  [Model.babbage_002]: {
-    context: 16384,
-  },
-  [Model.davinci_002]: {
-    context: 16384,
-  }
 } as {
   [model: string]: {
     context: number;
