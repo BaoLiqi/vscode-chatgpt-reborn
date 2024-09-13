@@ -13,13 +13,18 @@ const models = [
   // { name: "wizardlm-2", model: Model.wizard },
   // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
   // { name: "llama3-70b", model: Model.llama3_70b },
-  { name: "llama3-nitro", model: Model.llama3_70b_nitro },
-  { name: "llama3-405b", model: Model.llama3_405 },
-  { name: "qwen2-72B", model: Model.qwen2 },
-  { name: "gemini-pro",model:Model.gemini_pro},
+  // { name: "llama3-nitro", model: Model.llama3_70b_nitro },
+  // { name: "llama3-405b", model: Model.llama3_405 },
+  // { name: "qwen2-72B", model: Model.qwen2 },
+  { name: "gem-p",model:Model.gemini_pro},
+  { name: "gem-pe",model:Model.gemini_pro_e},
+
   { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
-  { name: "gpt4turbo", model: Model.gpt_4_turbo },
+
+  { name: "gpt-o1m", model: Model.gpt_o1_m },
+  { name: "gpt-o1", model: Model.gpt_o1_p },
+  // { name: "gpt4turbo", model: Model.gpt_4_turbo },
 ];
 
 export default function ModelSelect({

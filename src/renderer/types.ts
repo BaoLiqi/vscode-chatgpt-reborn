@@ -26,8 +26,13 @@ export enum Role {
 }
 
 export enum Model {
+  // 3 12
+  gpt_o1_m = "openai/o1-mini",
+  // 15 60
+  gpt_o1_p = "openai/o1-preview",
   // 0.15 0.6
   gpt_4o_m = "openai/gpt-4o-mini",
+  // 2.5 10
   gpt_4o = "openai/gpt-4o-2024-08-06",
   gpt_4_turbo = "openai/gpt-4-turbo",
   gpt_35_turbo = "gpt-3.5-turbo",
@@ -35,12 +40,16 @@ export enum Model {
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
   llama3_70b = "meta-llama/llama-3-70b-instruct",
   llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
+  //2 2
   llama3_405 = "meta-llama/llama-3.1-405b-instruct",
   free = "mistralai/mistral-7b-instruct:free",
   haiku = "anthropic/claude-3-haiku:beta",
   // 0.25_0.75
   gemini_flash = "google/gemini-flash-1.5",
+  // 2.5 7.5
   gemini_pro = "google/gemini-pro-1.5",
+  // 0 
+  gemini_pro_e = "google/gemini-pro-1.5-exp",
   qwen2 = "qwen/qwen-2-72b-instruct",
   none = "none"
 }
