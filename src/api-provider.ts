@@ -12,7 +12,7 @@ export class ApiProvider {
   constructor(apiKey: string, {
     organizationId = '',
     apiBaseUrl = 'https://api.openai.com/v1',
-    maxTokens = 4096,
+    maxTokens = 0,
     maxResponseTokens,
     temperature = 0.9,
     topP = 1,

@@ -76,24 +76,24 @@ export default function Tabs({
   }, [conversationList]);
 
 
-  const createAgent = ()=>{
-   let changed = false;
+  const createAgent = () => {
+    let changed = false;
     if (!conversationList.some((conv) => conv.id === "proofreader")) {
-      changed=true;
+      changed = true;
       const convp = {
         id: "proofreader",
         title: "prfd",
         messages: [],
         inProgress: false,
         createdAt: Date.now(),
-        model: Model.gpt_4o,
+        model: Model.gpt_o1_m,
         autoscroll: true,
         verbosity: Verbosity.normal,
       } as Conversation;
       dispatch(addConversation(convp));
     }
     if (!conversationList.some((conv) => conv.id === "grammarbot")) {
-      changed=true;
+      changed = true;
       const convg = {
         id: "grammarbot",
         title: "gbot",
@@ -107,7 +107,7 @@ export default function Tabs({
       dispatch(addConversation(convg));
     }
     return changed;
-  }
+  };
 
   const createNewConversation = () => {
     if (!createAgent()) {
@@ -163,11 +163,10 @@ export default function Tabs({
           </button>
           <Link
             className={`flex items-center justify-center text-button-secondary whitespace-nowrap rounded p-2 pr-3 text-xs
-            ${
-              location.pathname === "/actions"
+            ${location.pathname === "/actions"
                 ? "bg-tab-active border-secondary text-tab-active-unfocused"
                 : "bg-button-secondary hover:bg-button-secondary-hover hover:text-button-secondary-hover"
-            }`}
+              }`}
             to="/actions"
             onClick={(e) => {
               // if the actions tab is already open, close it
@@ -253,11 +252,10 @@ export default function Tabs({
           </ul>
           <Link
             className={`flex items-center justify-center text-button-secondary whitespace-nowrap rounded p-2 pr-3 text-xs
-            ${
-              location.pathname === "/actions"
+            ${location.pathname === "/actions"
                 ? "bg-button border-button text-button"
                 : "bg-button-secondary hover:bg-button-secondary-hover hover:text-button-secondary-hover"
-            }`}
+              }`}
             to="/actions"
             onClick={(e) => {
               // if the actions tab is already open, close it

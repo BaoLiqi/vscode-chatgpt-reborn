@@ -16,8 +16,8 @@ const models = [
   // { name: "llama3-nitro", model: Model.llama3_70b_nitro },
   // { name: "llama3-405b", model: Model.llama3_405 },
   // { name: "qwen2-72B", model: Model.qwen2 },
-  { name: "gem-p",model:Model.gemini_pro},
-  { name: "gem-pe",model:Model.gemini_pro_e},
+  { name: "gem-p", model: Model.gemini_pro },
+  { name: "gem-pe", model: Model.gemini_pro_e },
 
   { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
@@ -86,6 +86,8 @@ export default function ModelSelect({
         return "qwen2";
       case Model.haiku:
         return "haiku";
+      case Model.gpt_o1_m:
+        return "o1-m";
       case Model.gpt_4o:
         return "gpt-4o86";
       case Model.gpt_4o_m:
@@ -96,6 +98,8 @@ export default function ModelSelect({
         return "gf1.5";
       case Model.gemini_pro:
         return "g-pro";
+      case Model.gemini_pro_e:
+        return "g-pro-e";
       default:
         return model;
     }
