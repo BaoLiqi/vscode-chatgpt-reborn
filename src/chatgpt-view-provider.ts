@@ -479,43 +479,40 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			this.leftOverMessage = null;
 		}
 	}
+
 	private convertMessagesToMarkdown(conversation: Conversation): string {
-		let markdown = conversation.messages.reduce((accumulator: string, message: Message) => {
-			let role = 'Unknown';
-			if (message.role === Role.user) {
-				role = 'You';
-			} else if (message.role === Role.system) {
-				role = 'System';
-			} else if (message.role === Role.assistant) {
-				role = 'GPT';
-			}
-			const isError = message.isError ? "ERROR: " : "";
-			const content = message.rawContent ?? message.content;
+		return conversation.messages
+			.filter(message => message.role !== Role.system)
+			.map(message => {
+				const roleMap: Record<Role, string> = {
+					[Role.user]: 'User',
+					[Role.assistant]: 'GPT',
+					[Role.system]: 'System',
+				};
+				const role = roleMap[message.role] || 'Unknown';
+				const isError = message.isError ? "ERROR: " : "";
+				const content = message.rawContent?.trim() ?? message.content.trim();
 
-			let formattedMessage = `==**${isError}[${role}]**==\n${content.trim()}\n\n`;
+				let formattedMessage = `==**${isError}[${role}]**==\n${content}\n\n`;
 
-			// User included editor code selection in their question?
-			if (message.role === Role.user && message.questionCode) {
-				let code = message.questionCode;
-
-				try {
-					// The code will be already formatted with highlight.js
-					code = code.replace('<pre><code class="language-', '');
-					const split = code.split('">');
-					let language = split[0];
-					code = split[1].replace('</code></pre>', '');
-
-					formattedMessage += `\`\`\`${language}\n${code}\n\`\`\`\n\n`;
-				} catch (error) {
-					// Fallback
-					formattedMessage += `\`\`\`\n${code}\n\`\`\`\n\n`;
+				if (message.role === Role.user && message.questionCode) {
+					formattedMessage += this.formatCodeBlock(message.questionCode);
 				}
-			}
 
-			return accumulator + formattedMessage;
-		}, "");
+				return formattedMessage;
+			})
+			.join("");
+	}
 
-		return markdown;
+	private formatCodeBlock(code: string): string {
+		try {
+			const languageMatch = code.match(/<pre><code class="language-(\w+)">/);
+			const language = languageMatch ? languageMatch[1] : '';
+			const codeContent = code.replace(/<pre><code class="language-\w+">|<\/code><\/pre>/g, '');
+			return `\`\`\`${language}\n${codeContent}\n\`\`\`\n\n`;
+		} catch {
+			return `\`\`\`\n${code}\n\`\`\`\n\n`;
+		}
 	}
 
 	private stopGenerating(conversationId: string): void {
