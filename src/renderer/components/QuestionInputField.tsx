@@ -8,7 +8,8 @@ import {
   setInProgress,
   updateUserInput,
 } from "../store/conversation";
-import { Conversation, MODEL_TOKEN_LIMITS } from "../types";
+import { Bot, Conversation, MODEL_TOKEN_LIMITS } from "../types";
+import BotSelect from "./BotSelect";
 import Icon from "./Icon";
 import ModelSelect from "./ModelSelect";
 import MoreActionsMenu from "./MoreActionsMenu";
@@ -79,31 +80,26 @@ export default ({
         })
       );
       
-      vscode.postMessage({
-        type: "addFreeTextQuestion",
-        value: questionInputRef.current.value,
-        conversation: currentConversation,
-        includeEditorSelection: useEditorSelection,
-      });
-      // also send the user input to the proofreader
-      const cp = conversationList.find((conv)=>conv.id==="proofreader");
-      if(cp&& cp!==currentConversation){
+    switch (currentConversation.bot) {
+      case Bot.proofreader:
         vscode.postMessage({
           type: "proofreader",
           value: questionInputRef.current.value,
-          conversation: cp,
+          conversation: currentConversation,
           includeEditorSelection: useEditorSelection,
         });
-      }
-      const cg = conversationList.find((conv)=>conv.id==="grammarbot");
-      if(cg&& cg!==currentConversation){
+        break;
+      case Bot.basic:
+      default:
         vscode.postMessage({
-          type: "grammarbot",
+          type: "addFreeTextQuestion",
           value: questionInputRef.current.value,
-          conversation: cg,
+          conversation: currentConversation,
           includeEditorSelection: useEditorSelection,
         });
-      }
+        break;
+
+    }
 
       questionInputRef.current.value = "";
       questionInputRef.current.rows = 1;
@@ -271,6 +267,12 @@ export default ({
           <div className="flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
             
             <VerbositySelect
+              currentConversation={currentConversation}
+              vscode={vscode}
+              className="hidden xs:block"
+              tooltipId="footer-tooltip"
+            />
+            <BotSelect
               currentConversation={currentConversation}
               vscode={vscode}
               className="hidden xs:block"

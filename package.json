@@ -548,6 +548,20 @@
             "Normal",
             "Full"
           ],
+          "chatgpt.bot": {
+            "type": "string",
+            "enum": [
+              "basic",
+              "proofreader"
+            ],
+            "default": "basic",
+            "description": "Bot selection.",
+            "order": 47,
+            "enumItemLabels": [
+              "basic",
+              "proofreader"
+            ]
+          },
           "markdownEnumDescriptions": [
             "Only replies with code",
             "Explanations are concise",

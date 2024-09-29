@@ -130,12 +130,18 @@ export enum Verbosity {
   full = "full"
 }
 
+export enum Bot {
+  basic = "basic",
+  proofreader = "proofreader"
+}
+
 export interface Conversation {
   id: string;
   createdAt: string | number;
   inProgress: boolean;
   messages: Message[];
   model: Model | undefined;
+  bot?: Bot | undefined;
   title?: string;
   autoscroll: boolean;
   verbosity?: Verbosity | undefined;

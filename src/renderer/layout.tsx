@@ -16,6 +16,7 @@ import {
 import {
   addMessage,
   setAutoscroll,
+  setBot,
   setCurrentConversationId,
   setInProgress,
   setModel,
@@ -356,7 +357,7 @@ export default function Layout({ vscode }: { vscode: any }) {
         );
 
         // if the current conversation verbosity and model haven't been set yet, set them based on the settings
-        if (!currentConversation?.model || !currentConversation?.verbosity) {
+        if (!currentConversation?.model || !currentConversation?.verbosity || !currentConversation?.bot) {
           dispatch(
             setModel({
               conversationId: currentConversationId,
@@ -367,6 +368,12 @@ export default function Layout({ vscode }: { vscode: any }) {
             setVerbosity({
               conversationId: currentConversationId,
               verbosity: data.value.verbosity,
+            })
+          );
+          dispatch(
+            setBot({
+              conversationId: currentConversationId,
+              bot: data.value.bot,
             })
           );
         }

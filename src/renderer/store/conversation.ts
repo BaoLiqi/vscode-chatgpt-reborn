@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Conversation, Message, Model, Verbosity } from "../types";
+import { Bot, Conversation, Message, Model, Verbosity } from "../types";
 
 export interface ConversationState {
   conversations: {
@@ -254,6 +254,17 @@ export const conversationSlice = createSlice({
 
       state.conversations[conversationId].verbosity = verbosity;
     },
+    setBot: (
+      state,
+      action: PayloadAction<{
+        conversationId: string;
+        bot: Bot;
+      }>
+    ) => {
+      const { conversationId, bot } = action.payload;
+
+      state.conversations[conversationId].bot = bot;
+    },
     setModel: (
       state,
       action: PayloadAction<{
@@ -301,6 +312,7 @@ export const {
   setInProgress,
   setAutoscroll,
   setVerbosity,
+  setBot,
   setModel,
   updateUserInput,
 } = conversationSlice.actions;
