@@ -64,7 +64,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 
 		if (e.affectsConfiguration('chatgpt.promptPrefix') || e.affectsConfiguration('chatgpt.gpt3.generateCode-enabled') || e.affectsConfiguration('chatgpt.gpt3.model')) {
-			setContext();
+			updateCommandEnabledStates();
 		}
 	});
 
@@ -164,7 +164,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(view, freeText, resetThread, exportConversation, clearSession, configChanged, adhocCommand, generateCodeCommand, ...registeredCommands);
 
-	const setContext = () => {
+	const updateCommandEnabledStates = () => {
 		menuCommands.forEach(command => {
 			if (command === "generateCode") {
 				let generateCodeEnabled = !!vscode.workspace.getConfiguration("chatgpt").get<boolean>("gpt3.generateCode-enabled");
@@ -179,7 +179,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		});
 	};
 
-	setContext();
+	updateCommandEnabledStates();
 }
 
 export function deactivate() { }
