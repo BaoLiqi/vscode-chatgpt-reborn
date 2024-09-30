@@ -8,7 +8,7 @@ import {
   setInProgress,
   updateUserInput,
 } from "../store/conversation";
-import { Bot, Conversation, MODEL_TOKEN_LIMITS } from "../types";
+import { Bot, Conversation, MODEL_TOKEN_LIMITS, Verbosity } from "../types";
 import BotSelect from "./BotSelect";
 import Icon from "./Icon";
 import ModelSelect from "./ModelSelect";
@@ -82,10 +82,11 @@ export default ({
       
     switch (currentConversation.bot) {
       case Bot.proofreader:
+        const updatedConversation = { ...currentConversation, verbosity: Verbosity.full };
         vscode.postMessage({
           type: "proofreader",
           value: questionInputRef.current.value,
-          conversation: currentConversation,
+          conversation: updatedConversation,
           includeEditorSelection: useEditorSelection,
         });
         break;
