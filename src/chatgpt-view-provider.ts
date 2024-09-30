@@ -298,7 +298,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 							createdAt: Date.now(),
 						});
 					}
-					const text = pr_prompt + '<start>' + data.value + '<end>';
+					const text = '<start>' + data.value + '<end>';
 					this.sendApiRequest(text, prOptions);
 					break;
 				case 'editCode':
