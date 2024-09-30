@@ -82,7 +82,7 @@ export default ({
       
     switch (currentConversation.bot) {
       case Bot.proofreader:
-        const updatedConversation = { ...currentConversation, verbosity: Verbosity.full };
+        const updatedConversation = { ...currentConversation, verbosity: Verbosity.normal };
         vscode.postMessage({
           type: "proofreader",
           value: questionInputRef.current.value,
