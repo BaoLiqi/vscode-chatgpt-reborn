@@ -59,8 +59,6 @@ export default function Tabs({
   useEffect(() => {
     if (conversationList && conversationList.map) {
       setTabs([
-        // { name: "Prompts", href: "/prompts" id: "prompts" },
-        // { name: "Actions", href: "/actions" id: "actions" },
         ...conversationList.map((conversation) => ({
           name: conversation.title ?? "Chat",
           id: conversation.id,
@@ -99,7 +97,7 @@ export default function Tabs({
     } as Conversation;
     dispatch(addConversation(newConversation));
     navigate(`/chat/${encodeURI(newConversation.id)}`);
-  
+
   };
 
   return (
@@ -126,24 +124,6 @@ export default function Tabs({
             <Icon icon="plus" className="w-4 h-4" />
             {t?.tabs?.new_chat ?? "New"}
           </button>
-          <Link
-            className={`flex items-center justify-center text-button-secondary whitespace-nowrap rounded p-2 pr-3 text-xs
-            ${location.pathname === "/actions"
-                ? "bg-tab-active border-secondary text-tab-active-unfocused"
-                : "bg-button-secondary hover:bg-button-secondary-hover hover:text-button-secondary-hover"
-              }`}
-            to="/actions"
-            onClick={(e) => {
-              // if the actions tab is already open, close it
-              if (location.pathname === "/actions") {
-                e.preventDefault();
-                navigate(`/chat/${encodeURI(currentConversation.id)}`);
-              }
-            }}
-          >
-            <Icon icon="zap" className="w-4 h-4" />
-            <span className="sr-only">Actions</span>
-          </Link>
         </div>
       </div>
       {/* Wider tab layout */}
@@ -215,24 +195,6 @@ export default function Tabs({
               </button>
             </li>
           </ul>
-          <Link
-            className={`flex items-center justify-center text-button-secondary whitespace-nowrap rounded p-2 pr-3 text-xs
-            ${location.pathname === "/actions"
-                ? "bg-button border-button text-button"
-                : "bg-button-secondary hover:bg-button-secondary-hover hover:text-button-secondary-hover"
-              }`}
-            to="/actions"
-            onClick={(e) => {
-              // if the actions tab is already open, close it
-              if (location.pathname === "/actions") {
-                e.preventDefault();
-                navigate(`/chat/${encodeURI(currentConversation.id)}`);
-              }
-            }}
-          >
-            <Icon icon="zap" className="w-4 h-4" />
-            <span className="sr-only">Actions</span>
-          </Link>
         </nav>
       </div>
     </div>

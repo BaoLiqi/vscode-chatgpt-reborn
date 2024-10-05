@@ -28,10 +28,9 @@ import {
 } from "./store/conversation";
 import { Conversation, Message, Role } from "./types";
 import { unEscapeHTML } from "./utils";
-import Actions from "./views/actions";
 import Chat from "./views/chat";
 
-export default function Layout({ vscode }: { vscode: any }) {
+export default function Layout({ vscode }: { vscode: any; }) {
   const dispatch = useAppDispatch();
   const currentConversationId = useAppSelector(
     (state: any) => state.conversation.currentConversationId
@@ -71,7 +70,7 @@ export default function Layout({ vscode }: { vscode: any }) {
       type: "setCurrentConversation",
       conversation: currentConversation,
     });
-  }, [currentConversationId,currentConversation.messages]);
+  }, [currentConversationId, currentConversation.messages]);
 
   // Debounce token count updates
   const debounceTimeout = useRef<any>(null);
@@ -176,8 +175,8 @@ export default function Layout({ vscode }: { vscode: any }) {
           done: true,
           questionCode: data?.code
             ? (window as any)?.marked.parse(
-                `\`\`\`${data?.editorLanguage}\n${data.code}\n\`\`\``
-              )
+              `\`\`\`${data?.editorLanguage}\n${data.code}\n\`\`\``
+            )
             : "",
         } as Message;
 
@@ -258,8 +257,8 @@ export default function Layout({ vscode }: { vscode: any }) {
           !data.responseInMarkdown
             ? "```\r\n" + unEscapeHTML(data.value) + " \r\n ```"
             : (data?.value ?? "").split("```").length % 2 === 1
-            ? data.value
-            : data.value + "\n\n```\n\n"
+              ? data.value
+              : data.value + "\n\n```\n\n"
         );
 
         if (existingMessage) {
@@ -481,7 +480,7 @@ export default function Layout({ vscode }: { vscode: any }) {
   return (
     <>
       {apiKeyStatus === ApiKeyStatus.Unknown ||
-      apiKeyStatus === ApiKeyStatus.Valid ? (
+        apiKeyStatus === ApiKeyStatus.Valid ? (
         <>
           {!settings?.minimalUI && !settings?.disableMultipleConversations && (
             <Tabs
@@ -490,8 +489,6 @@ export default function Layout({ vscode }: { vscode: any }) {
             />
           )}
           <Routes>
-            {/* <Route path="/prompts" element={<Prompts vscode={vscode} />} /> */}
-            <Route path="/actions" element={<Actions vscode={vscode} />} />
             {conversationList &&
               conversationList.map &&
               conversationList.map((conversation: Conversation) => (

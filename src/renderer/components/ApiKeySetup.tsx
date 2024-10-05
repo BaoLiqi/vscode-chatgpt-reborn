@@ -11,7 +11,7 @@ export default function ({
   className?: string;
 }) {
   const apiKeyPlaceholder = "sk-...";
-  const apiUrlPlaceholder = "https://openai-proxy.dev/v1";
+  const apiUrlPlaceholder = "https://openrouter.ai/api/v1";
   // Azure API support is not quite ready yet - API provider needs to be refactored
   // const apiUrlPlaceholder =
   //   "https://example-with-azure-openai.openai.azure.com/openai/deployments/your-deployment-name";
