@@ -1,14 +1,14 @@
 {
-  "name": "chatgpt-reborn",
-  "publisher": "chris-hayes",
-  "displayName": "ChatGPT Reborn",
+  "name": "chatgpt-reborn-tailored",
+  "publisher": "baoliqi",
+  "displayName": "Copilot",
   "icon": "images/ai-logo.jpg",
-  "description": "Refactor, improve, and debug your code with GPT-4. This is a fork of the now discontinued vscode-chatgpt extension.",
+  "description": "This is a fork of chatgpt-reborn.",
   "version": "3.20.2",
   "aiKey": "",
   "license": "ISC",
   "repository": {
-    "url": "https://github.com/christopher-hayes/vscode-chatgpt-reborn"
+    "url": "https://github.com/BaoLiqi/vscode-chatgpt-reborn"
   },
   "engines": {
     "vscode": "^1.70.0"
@@ -20,14 +20,10 @@
     "Education"
   ],
   "keywords": [
-    "chatgpt",
     "gpt",
-    "gpt3",
-    "gpt3.5",
-    "gpt4",
-    "openai",
-    "testing",
-    "find bugs",
+    "LLM",
+    "chatbot",
+    "copilot",
     "ai"
   ],
   "activationEvents": [
@@ -273,7 +269,7 @@
         {
           "id": "vscode-chatgpt-view-container",
           "title": "ChatGPT",
-          "icon": "images/openai-logo.svg"
+          "icon": "images/broadcast.svg"
         }
       ]
     },
