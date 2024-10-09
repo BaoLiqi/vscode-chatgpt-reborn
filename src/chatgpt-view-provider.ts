@@ -477,7 +477,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 				const isError = message.isError ? "ERROR: " : "";
 				const content = message.rawContent?.trim() ?? message.content.trim();
 
-				let formattedMessage = `==**${isError}[${role}]**==\n${content}\n\n`;
+				let formattedMessage = `**${isError}[${role}]**\n${content}\n\n`;
 
 				if (message.role === Role.user && message.questionCode) {
 					formattedMessage += this.formatCodeBlock(message.questionCode);

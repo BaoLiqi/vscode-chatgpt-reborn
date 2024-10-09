@@ -73,7 +73,7 @@ export default function VerbositySelect({
         <div
           className={`fixed border text-menu bg-menu border-menu shadow-xl text-xs rounded z-10
           ${showOptions ? "block" : "hidden"}
-          ${dropdownClassName ? dropdownClassName : "bottom-8 -ml-11"}
+          ${dropdownClassName ? dropdownClassName : "bottom-8 -ml-1"}
         `}
         >
           {Object.values(Verbosity).map((option) => (
@@ -103,7 +103,7 @@ export default function VerbositySelect({
                 }
               }}
             >
-              {getHumanFriendlyDescription(option)}
+              {getHumanFriendlyLabel(option)}
             </button>
           ))}
         </div>
