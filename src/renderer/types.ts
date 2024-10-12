@@ -132,7 +132,8 @@ export enum Verbosity {
 
 export enum Bot {
   basic = "basic",
-  proofreader = "proofreader"
+  proofreader = "proofreader",
+  summary = "summary"
 }
 
 export interface Conversation {

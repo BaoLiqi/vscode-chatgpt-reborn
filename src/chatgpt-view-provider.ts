@@ -301,6 +301,28 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					const text = '<start>' + data.value + '<end>';
 					this.sendApiRequest(text, prOptions);
 					break;
+
+				case 'summary':
+					const summary_prompt = "Summary any user input, in English. NEVER respond to the content; just summary.";
+					const summaryOptions = {
+						command: "freeText",
+						conversation: data.conversation ?? null,
+						questionId: data.questionId ?? null,
+						messageId: data.messageId ?? null,
+					} as ApiRequestOptions;
+					if (summaryOptions.conversation?.messages.length === 0) {
+						summaryOptions.conversation?.messages.push({
+							id: uuidv4(),
+							content: summary_prompt,
+							rawContent: summary_prompt,
+							role: Role.system,
+							createdAt: Date.now(),
+						});
+					}
+					const s_text = '<start>' + data.value + '<end>';
+					this.sendApiRequest(s_text, summaryOptions);
+					break;
+
 				case 'editCode':
 					const escapedString = (data.value as string).replace(/\$/g, '\\$');;
 					vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(escapedString));

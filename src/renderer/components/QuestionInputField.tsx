@@ -99,7 +99,15 @@ export default ({
           includeEditorSelection: useEditorSelection,
         });
         break;
-
+      case Bot.summary:
+        const s_updatedConversation = { ...currentConversation, verbosity: Verbosity.concise };
+        vscode.postMessage({
+          type: "summary",
+          value: questionInputRef.current.value,
+          conversation: s_updatedConversation,
+          includeEditorSelection: useEditorSelection,
+        });
+        break;
     }
 
       questionInputRef.current.value = "";
