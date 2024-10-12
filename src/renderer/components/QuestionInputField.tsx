@@ -170,7 +170,7 @@ export default ({
           {!currentConversation.inProgress && (
             <textarea
               rows={1}
-              className="text-sm rounded border border-input text-input bg-input resize-none w-full outline-0"
+              className="text-sm rounded border-0 border-input text-input bg-input resize-none w-full outline-0"
               id="question-input"
               placeholder="Ask a question..."
               ref={questionInputRef}
@@ -252,7 +252,7 @@ export default ({
           {!currentConversation.inProgress && (
             <button
               title="Submit prompt"
-              className="ask-button rounded px-4 py-2 flex flex-row items-center bg-button hover:bg-button-hover focus:bg-button-hover"
+              className="ask-button rounded px-2 py-2 flex flex-row items-center bg-stone-700 hover:bg-button-hover focus:bg-button-hover"
               onClick={() => {
                 askQuestion();
               }}
@@ -309,7 +309,7 @@ export default ({
               }}
             >
               <Icon icon="plus" className="w-3 h-3" />
-              {t?.questionInputField?.useEditorSelection ?? "Editor selection"}
+              {t?.questionInputField?.useEditorSelection ?? "Selection"}
             </button>
             <button
               className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary`}
@@ -381,7 +381,7 @@ export default ({
               }}
             >
               <Icon icon="zap" className="w-3.5 h-3.5" />
-              {t?.questionInputField?.moreActions ?? "More Actions"}
+              {t?.questionInputField?.moreActions ?? "More"}
             </button>
           </div>
         </div>
