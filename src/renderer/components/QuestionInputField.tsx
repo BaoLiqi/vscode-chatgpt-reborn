@@ -79,36 +79,43 @@ export default ({
           inProgress: true,
         })
       );
-      
-    switch (currentConversation.bot) {
-      case Bot.proofreader:
-        const updatedConversation = { ...currentConversation, verbosity: Verbosity.normal };
-        vscode.postMessage({
-          type: "proofreader",
-          value: questionInputRef.current.value,
-          conversation: updatedConversation,
-          includeEditorSelection: useEditorSelection,
-        });
-        break;
-      case Bot.basic:
-      default:
-        vscode.postMessage({
-          type: "addFreeTextQuestion",
-          value: questionInputRef.current.value,
-          conversation: currentConversation,
-          includeEditorSelection: useEditorSelection,
-        });
-        break;
-      case Bot.summary:
-        const s_updatedConversation = { ...currentConversation, verbosity: Verbosity.concise };
-        vscode.postMessage({
-          type: "summary",
-          value: questionInputRef.current.value,
-          conversation: s_updatedConversation,
-          includeEditorSelection: useEditorSelection,
-        });
-        break;
-    }
+
+      switch (currentConversation.bot) {
+        case Bot.proofreader:
+          const updatedConversation = {
+            ...currentConversation,
+            verbosity: Verbosity.normal,
+          };
+          vscode.postMessage({
+            type: "proofreader",
+            value: questionInputRef.current.value,
+            conversation: updatedConversation,
+            includeEditorSelection: useEditorSelection,
+          });
+          break;
+        case Bot.basic:
+        default:
+          vscode.postMessage({
+            type: "addFreeTextQuestion",
+            value: questionInputRef.current.value,
+            conversation: currentConversation,
+            includeEditorSelection: useEditorSelection,
+          });
+          break;
+        case Bot.summary: {
+          const updatedConversation = {
+            ...currentConversation,
+            verbosity: Verbosity.concise,
+          };
+          vscode.postMessage({
+            type: "summary",
+            value: questionInputRef.current.value,
+            conversation: updatedConversation,
+            includeEditorSelection: useEditorSelection,
+          });
+          break;
+        }
+      }
 
       questionInputRef.current.value = "";
       questionInputRef.current.rows = 1;
@@ -144,16 +151,19 @@ export default ({
   };
 
   const isTokenQuantityExceeded = () => {
-    if (!currentConversation){return true;}
-    if (!currentConversation.model){return true;}
+    if (!currentConversation) {
+      return true;
+    }
+    if (!currentConversation.model) {
+      return true;
+    }
 
     let current_model: string = currentConversation?.model;
     if (!(current_model in MODEL_TOKEN_LIMITS)) {
       return false;
     }
     return (
-      parseInt(tokenCountLabel) >
-      MODEL_TOKEN_LIMITS[current_model].context
+      parseInt(tokenCountLabel) > MODEL_TOKEN_LIMITS[current_model].context
     );
   };
 
@@ -274,7 +284,6 @@ export default ({
       {!settings?.minimalUI && (
         <div className="flex flex-wrap xs:flex-nowrap flex-row justify-between gap-x-2 px-4 overflow-x-auto">
           <div className="flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
-            
             <VerbositySelect
               currentConversation={currentConversation}
               vscode={vscode}
@@ -352,7 +361,7 @@ export default ({
                   : "duration-500"
               }
                 ${
-                 isTokenQuantityExceeded()
+                  isTokenQuantityExceeded()
                     ? "duration-200 bg-red-700 bg-opacity-20"
                     : ""
                 }
