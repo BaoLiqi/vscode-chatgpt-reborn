@@ -14,12 +14,12 @@ export async function loadTranslations(extensionPath: string): Promise<Record<st
   const localeTranslationsPath = path.join(extensionPath, '', `package.nls.${locale}.json`);
   let localeTranslations = {};
 
-  try {
-    await fs.promises.access(localeTranslationsPath, fs.constants.F_OK);
-    localeTranslations = JSON.parse(await fs.promises.readFile(localeTranslationsPath, 'utf8'));
-  } catch (err: any) {
-    console.error(`Locale translations not found: ${err.message}`);
-  }
+  // try {
+  //   await fs.promises.access(localeTranslationsPath, fs.constants.F_OK);
+  //   localeTranslations = JSON.parse(await fs.promises.readFile(localeTranslationsPath, 'utf8'));
+  // } catch (err: any) {
+  //   console.error(`Locale translations not found: ${err.message}`);
+  // }
 
   // Merge default translations with locale-specific translations
   const combinedTranslations = { ...defaultTranslations, ...localeTranslations };
