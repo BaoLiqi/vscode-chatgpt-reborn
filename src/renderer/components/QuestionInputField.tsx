@@ -93,15 +93,6 @@ export default ({
             includeEditorSelection: useEditorSelection,
           });
           break;
-        case Bot.basic:
-        default:
-          vscode.postMessage({
-            type: "addFreeTextQuestion",
-            value: questionInputRef.current.value,
-            conversation: currentConversation,
-            includeEditorSelection: useEditorSelection,
-          });
-          break;
         case Bot.summary: {
           const updatedConversation = {
             ...currentConversation,
@@ -115,6 +106,30 @@ export default ({
           });
           break;
         }
+        case Bot.tutor: {
+          const updatedConversation = {
+            ...currentConversation,
+            verbosity: Verbosity.normal,
+          };
+          vscode.postMessage({
+            type: "tutor",
+            value: questionInputRef.current.value,
+            conversation: updatedConversation,
+            includeEditorSelection: useEditorSelection,
+          });
+          break;
+        }
+
+        case Bot.basic:
+        default:
+          vscode.postMessage({
+            type: "addFreeTextQuestion",
+            value: questionInputRef.current.value,
+            conversation: currentConversation,
+            includeEditorSelection: useEditorSelection,
+          });
+          break;
+
       }
 
       questionInputRef.current.value = "";
