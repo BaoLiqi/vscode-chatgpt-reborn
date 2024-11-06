@@ -265,13 +265,22 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.type) {
 				case 'addFreeTextQuestion':
+					const dummyPrompt = "You are a helpful assistant.";
 					const apiRequestOptions = {
 						command: "freeText",
 						conversation: data.conversation ?? null,
 						questionId: data.questionId ?? null,
 						messageId: data.messageId ?? null,
 					} as ApiRequestOptions;
-
+					if (apiRequestOptions.conversation?.messages) {
+						apiRequestOptions.conversation?.messages.push({
+							id: uuidv4(),
+							content: dummyPrompt,
+							rawContent: dummyPrompt,
+							role: Role.system,
+							createdAt: Date.now(),
+						});
+					}
 					// if includeEditorSelection is true, add the code snippet to the question
 					if (data?.includeEditorSelection) {
 						const selection = this.getActiveEditorSelection();
