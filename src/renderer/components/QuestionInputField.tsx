@@ -129,7 +129,6 @@ export default ({
             includeEditorSelection: useEditorSelection,
           });
           break;
-
       }
 
       questionInputRef.current.value = "";
@@ -188,6 +187,50 @@ export default ({
       ${settings?.minimalUI ? "pb-2" : "pb-1"}
     `}
     >
+      {/* dups */}
+      <div className="flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
+        <button
+          className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 whitespace-nowrap
+                ${
+                  useEditorSelection
+                    ? "bg-button text-button hover:bg-button-hover focus:bg-button-hover"
+                    : "hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary"
+                }
+              `}
+          data-tooltip-id="footer-tooltip"
+          data-tooltip-content="Include the code selected in your editor in the prompt?"
+          onMouseDown={(e) => {
+            // Prevent flashing from textarea briefly losing focus
+            e.preventDefault();
+          }}
+          onClick={() => {
+            // focus the textarea
+            questionInputRef?.current?.focus();
+
+            setIncludeEditorSelection(!useEditorSelection);
+          }}
+        >
+          <Icon icon="plus" className="w-3 h-3" />
+          {t?.questionInputField?.useEditorSelection ?? "Selection"}
+        </button>
+        <button
+          className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary`}
+          data-tooltip-id="footer-tooltip"
+          data-tooltip-content="Clear all messages from conversation"
+          onClick={() => {
+            // clear all messages from the current conversation
+            dispatch(
+              clearMessages({
+                conversationId: currentConversation.id,
+              })
+            );
+          }}
+        >
+          <Icon icon="cancel" className="w-3 h-3" />
+          {t?.questionInputField?.clear ?? "Clear"}
+        </button>
+      </div>
+      {/* inputs */}
       <div className="px-4 flex items-center gap-x-4">
         <div className="flex-1 textarea-wrapper w-full flex items-center">
           {currentConversation.inProgress && (
@@ -298,6 +341,7 @@ export default ({
       </div>
       {!settings?.minimalUI && (
         <div className="flex flex-wrap xs:flex-nowrap flex-row justify-between gap-x-2 px-4 overflow-x-auto">
+          {/* bottom left buttons */}
           <div className="flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
             <VerbositySelect
               currentConversation={currentConversation}
@@ -318,47 +362,6 @@ export default ({
               className="display:block"
               tooltipId="footer-tooltip"
             />
-
-            <button
-              className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 whitespace-nowrap
-                ${
-                  useEditorSelection
-                    ? "bg-button text-button hover:bg-button-hover focus:bg-button-hover"
-                    : "hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary"
-                }
-              `}
-              data-tooltip-id="footer-tooltip"
-              data-tooltip-content="Include the code selected in your editor in the prompt?"
-              onMouseDown={(e) => {
-                // Prevent flashing from textarea briefly losing focus
-                e.preventDefault();
-              }}
-              onClick={() => {
-                // focus the textarea
-                questionInputRef?.current?.focus();
-
-                setIncludeEditorSelection(!useEditorSelection);
-              }}
-            >
-              <Icon icon="plus" className="w-3 h-3" />
-              {t?.questionInputField?.useEditorSelection ?? "Selection"}
-            </button>
-            <button
-              className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary`}
-              data-tooltip-id="footer-tooltip"
-              data-tooltip-content="Clear all messages from conversation"
-              onClick={() => {
-                // clear all messages from the current conversation
-                dispatch(
-                  clearMessages({
-                    conversationId: currentConversation.id,
-                  })
-                );
-              }}
-            >
-              <Icon icon="cancel" className="w-3 h-3" />
-              {t?.questionInputField?.clear ?? "Clear"}
-            </button>
             <Tooltip id="footer-tooltip" place="top" delayShow={800} />
           </div>
           <MoreActionsMenu
