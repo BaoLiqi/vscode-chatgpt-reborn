@@ -187,8 +187,8 @@ export default ({
       ${settings?.minimalUI ? "pb-2" : "pb-1"}
     `}
     >
-      {/* dups */}
-      <div className="flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
+      {/* first row */}
+      <div className="px-4 flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
         <button
           className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 whitespace-nowrap
                 ${
@@ -346,13 +346,13 @@ export default ({
             <VerbositySelect
               currentConversation={currentConversation}
               vscode={vscode}
-              className="hidden xs:block"
+              className="display:block"
               tooltipId="footer-tooltip"
             />
             <BotSelect
               currentConversation={currentConversation}
               vscode={vscode}
-              className="hidden xs:block"
+              className="display:block"
               tooltipId="footer-tooltip"
             />
             <ModelSelect
