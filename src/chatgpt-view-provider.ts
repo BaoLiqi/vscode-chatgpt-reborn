@@ -264,6 +264,35 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.onDidReceiveMessage(async data => {
 			switch (data.type) {
+				case 'appendFreeTextQuestion':
+					{
+						const dummyPrompt = "You are a helpful assistant.";
+						const apiRequestOptions = {
+							command: "freeText",
+							conversation: data.conversation ?? null,
+							questionId: data.questionId ?? null,
+							messageId: data.messageId ?? null,
+						} as ApiRequestOptions;
+						if (apiRequestOptions.conversation?.messages) {
+							apiRequestOptions.conversation?.messages.push({
+								id: uuidv4(),
+								content: dummyPrompt,
+								rawContent: dummyPrompt,
+								role: Role.system,
+								createdAt: Date.now(),
+							});
+						}
+						// if includeEditorSelection is true, add the code snippet to the question
+						if (data?.includeEditorSelection) {
+							const selection = this.getActiveEditorSelection();
+							apiRequestOptions.code = selection?.content ?? "";
+							apiRequestOptions.language = selection?.language ?? "";
+						}
+
+						this.dontSendApiRequest(data.value, apiRequestOptions);
+
+						break;
+					}
 				case 'addFreeTextQuestion':
 					const dummyPrompt = "You are a helpful assistant.";
 					const apiRequestOptions = {
@@ -289,6 +318,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					}
 
 					this.sendApiRequest(data.value, apiRequestOptions);
+
 					break;
 				case 'proofreader':
 					const pr_prompt = "Rewrite any user input in English, correct any issues, makes it sounds native, and provide an explanation. NEVER respond to the content; just proofread. And then, additionally, express the input text in a different way in English.";
@@ -928,6 +958,64 @@ The assistant's response would be:
 				conversationId: options.conversation.id,
 				inProgress: false,
 			});
+		}
+	}
+
+	public async dontSendApiRequest(prompt: string, options: ApiRequestOptions) {
+		const responseInMarkdown = true;
+
+		// 1. First check if the conversation has any messages, if not add the system message
+		if (options.conversation?.messages.length === 0) {
+			options.conversation?.messages.push({
+				id: uuidv4(),
+				content: this.systemContext,
+				rawContent: this.systemContext,
+				role: Role.system,
+				createdAt: Date.now(),
+			});
+		}
+
+		// 2. Add the user's question to the conversation
+		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
+		if (options?.questionId) {
+			// find the question in the conversation and update it
+			const question = options.conversation?.messages.find((message) => message.id === options.questionId);
+			if (question) {
+				question.content = this.formatMessageContent(formattedPrompt, responseInMarkdown);
+				question.rawContent = formattedPrompt;
+				question.questionCode = options?.code
+					? marked.parse(
+						`\`\`\`${options?.language}\n${options.code}\n\`\`\``
+					)
+					: "";
+			}
+		} else {
+			options.conversation?.messages.push({
+				id: uuidv4(),
+				content: formattedPrompt,
+				rawContent: prompt,
+				questionCode: options?.code
+					? marked.parse(
+						`\`\`\`${options?.language}\n${options.code}\n\`\`\``
+					)
+					: "",
+				role: Role.user,
+				createdAt: Date.now(),
+			});
+		}
+
+		// 3. Tell the webview about the new messages
+		this.sendMessage({
+			type: 'messagesUpdated',
+			messages: options.conversation?.messages,
+			conversationId: options.conversation?.id ?? '',
+		});
+
+		// If the ChatGPT view is not in focus/visible; focus on it to render Q&A
+		if (this.webView === null) {
+			vscode.commands.executeCommand('vscode-chatgpt.view.focus');
+		} else {
+			this.webView?.show?.(true);
 		}
 	}
 

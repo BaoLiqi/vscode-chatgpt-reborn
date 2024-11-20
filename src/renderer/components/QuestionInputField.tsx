@@ -31,6 +31,7 @@ export default ({
   const questionInputRef = React.useRef<HTMLTextAreaElement>(null);
   const [showMoreActions, setShowMoreActions] = useState(false);
   const [useEditorSelection, setIncludeEditorSelection] = useState(false);
+  const [useAppendMode, setUseAppendMode] = useState(false);
   const [showTokenBreakdown, setShowTokenBreakdown] = useState(false);
   const tokenCountRef = React.useRef<HTMLDivElement>(null);
   const [tokenCountLabel, setTokenCountLabel] = useState("0");
@@ -73,62 +74,70 @@ export default ({
 
     if (question && question.length > 0) {
       // Set the conversation to in progress
-      dispatch(
-        setInProgress({
-          conversationId: currentConversation.id,
-          inProgress: true,
-        })
-      );
+      if (!useAppendMode) {
+        dispatch(
+          setInProgress({
+            conversationId: currentConversation.id,
+            inProgress: true,
+          })
+        );
+        switch (currentConversation.bot) {
+          case Bot.proofreader:
+            const updatedConversation = {
+              ...currentConversation,
+              verbosity: Verbosity.normal,
+            };
+            vscode.postMessage({
+              type: "proofreader",
+              value: questionInputRef.current.value,
+              conversation: updatedConversation,
+              includeEditorSelection: useEditorSelection,
+            });
+            break;
+          case Bot.summary: {
+            const updatedConversation = {
+              ...currentConversation,
+              verbosity: Verbosity.concise,
+            };
+            vscode.postMessage({
+              type: "summary",
+              value: questionInputRef.current.value,
+              conversation: updatedConversation,
+              includeEditorSelection: useEditorSelection,
+            });
+            break;
+          }
+          case Bot.tutor: {
+            const updatedConversation = {
+              ...currentConversation,
+              verbosity: Verbosity.normal,
+            };
+            vscode.postMessage({
+              type: "tutor",
+              value: questionInputRef.current.value,
+              conversation: updatedConversation,
+              includeEditorSelection: useEditorSelection,
+            });
+            break;
+          }
 
-      switch (currentConversation.bot) {
-        case Bot.proofreader:
-          const updatedConversation = {
-            ...currentConversation,
-            verbosity: Verbosity.normal,
-          };
-          vscode.postMessage({
-            type: "proofreader",
-            value: questionInputRef.current.value,
-            conversation: updatedConversation,
-            includeEditorSelection: useEditorSelection,
-          });
-          break;
-        case Bot.summary: {
-          const updatedConversation = {
-            ...currentConversation,
-            verbosity: Verbosity.concise,
-          };
-          vscode.postMessage({
-            type: "summary",
-            value: questionInputRef.current.value,
-            conversation: updatedConversation,
-            includeEditorSelection: useEditorSelection,
-          });
-          break;
+          case Bot.basic:
+          default:
+            vscode.postMessage({
+              type: "addFreeTextQuestion",
+              value: questionInputRef.current.value,
+              conversation: currentConversation,
+              includeEditorSelection: useEditorSelection,
+            });
+            break;
         }
-        case Bot.tutor: {
-          const updatedConversation = {
-            ...currentConversation,
-            verbosity: Verbosity.normal,
-          };
-          vscode.postMessage({
-            type: "tutor",
-            value: questionInputRef.current.value,
-            conversation: updatedConversation,
-            includeEditorSelection: useEditorSelection,
-          });
-          break;
-        }
-
-        case Bot.basic:
-        default:
-          vscode.postMessage({
-            type: "addFreeTextQuestion",
-            value: questionInputRef.current.value,
-            conversation: currentConversation,
-            includeEditorSelection: useEditorSelection,
-          });
-          break;
+      } else {
+        vscode.postMessage({
+          type: "appendFreeTextQuestion",
+          value: questionInputRef.current.value,
+          conversation: currentConversation,
+          includeEditorSelection: useEditorSelection,
+        });
       }
 
       questionInputRef.current.value = "";
@@ -190,6 +199,23 @@ export default ({
       {/* first row */}
       <div className="px-4 flex-grow flex flex-nowrap xs:flex-wrap flex-row gap-2">
         <button
+          className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary`}
+          data-tooltip-id="footer-tooltip"
+          data-tooltip-content="Clear all messages from conversation"
+          onClick={() => {
+            // clear all messages from the current conversation
+            dispatch(
+              clearMessages({
+                conversationId: currentConversation.id,
+              })
+            );
+          }}
+        >
+          <Icon icon="cancel" className="w-3 h-3" />
+          {t?.questionInputField?.clear ?? "Clear"}
+        </button>
+
+        <button
           className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 whitespace-nowrap
                 ${
                   useEditorSelection
@@ -213,21 +239,30 @@ export default ({
           <Icon icon="plus" className="w-3 h-3" />
           {t?.questionInputField?.useEditorSelection ?? "Selection"}
         </button>
+
+        {/* toggle append */}
         <button
-          className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary`}
+          className={`rounded flex gap-1 items-center justify-start py-0.5 px-1 whitespace-nowrap
+                ${
+                  useAppendMode
+                    ? "bg-button text-button hover:bg-button-hover focus:bg-button-hover"
+                    : "hover:bg-button-secondary hover:text-button-secondary focus:text-button-secondary focus:bg-button-secondary"
+                }
+              `}
           data-tooltip-id="footer-tooltip"
-          data-tooltip-content="Clear all messages from conversation"
+          data-tooltip-content="Include the code selected in your editor in the prompt?"
+          onMouseDown={(e) => {
+            // Prevent flashing from textarea briefly losing focus
+            e.preventDefault();
+          }}
           onClick={() => {
-            // clear all messages from the current conversation
-            dispatch(
-              clearMessages({
-                conversationId: currentConversation.id,
-              })
-            );
+            // focus the textarea
+            questionInputRef?.current?.focus();
+            setUseAppendMode(!useAppendMode);
           }}
         >
-          <Icon icon="cancel" className="w-3 h-3" />
-          {t?.questionInputField?.clear ?? "Clear"}
+          <Icon icon="plus" className="w-3 h-3" />
+          {"Append"}
         </button>
       </div>
       {/* inputs */}
