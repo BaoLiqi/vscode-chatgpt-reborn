@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { updateConversationModel } from "../store/conversation";
-import {
-  Conversation,
-  Model
-} from "../types";
+import { Conversation, Model } from "../types";
 import Icon from "./Icon";
 
 const models = [
@@ -16,14 +13,16 @@ const models = [
   // { name: "llama3-nitro", model: Model.llama3_70b_nitro },
   // { name: "llama3-405b", model: Model.llama3_405 },
   // { name: "qwen2-72B", model: Model.qwen2 },
-  { name: "gem-p", model: Model.gemini_pro },
+  // { name: "gem-p", model: Model.gemini_pro },
   { name: "gem-pe", model: Model.gemini_pro_e },
+  { name: "g1114", model: Model.gemini_1114e },
+
+  { name: "gpt-o1m", model: Model.gpt_o1_m },
 
   { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
 
-  { name: "gpt-o1m", model: Model.gpt_o1_m },
-  { name: "gpt-o1", model: Model.gpt_o1_p },
+  // { name: "gpt-o1", model: Model.gpt_o1_p },
   // { name: "gpt4turbo", model: Model.gpt_4_turbo },
 ];
 
@@ -70,34 +69,16 @@ export default function ModelSelect({
 
   const friendlyName = (model: string): string => {
     switch (model) {
-      case Model.wizard:
-        return "Wizard2";
       case Model.free:
         return "M-7";
-      case Model.mistral8x22b_instruct:
-        return "M-8x22";
-      case Model.llama3_70b:
-        return "llama3";
-      case Model.llama3_70b_nitro:
-        return "l3n";
-      case Model.llama3_405:
-        return "l405";
-      case Model.qwen2:
-        return "qwen2";
-      case Model.haiku:
-        return "haiku";
       case Model.gpt_o1_m:
         return "o1-m";
       case Model.gpt_4o:
-        return "gpt-4o86";
+        return "4o";
       case Model.gpt_4o_m:
         return "gpt-4m";
-      case Model.gpt_4_turbo:
-        return "4turbo";
-      case Model.gemini_flash:
-        return "gf1.5";
-      case Model.gemini_pro:
-        return "g-pro";
+      case Model.gemini_1114e:
+        return "g1114e";
       case Model.gemini_pro_e:
         return "g-pro-e";
       default:

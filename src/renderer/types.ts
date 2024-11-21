@@ -33,7 +33,7 @@ export enum Model {
   // 0.15 0.6
   gpt_4o_m = "openai/gpt-4o-mini",
   // 2.5 10
-  gpt_4o = "openai/gpt-4o-2024-08-06",
+  gpt_4o = "openai/gpt-4o-2024-11-20",
   gpt_4_turbo = "openai/gpt-4-turbo",
   gpt_35_turbo = "gpt-3.5-turbo",
   wizard = "microsoft/wizardlm-2-8x22b",
@@ -50,6 +50,7 @@ export enum Model {
   gemini_pro = "google/gemini-pro-1.5",
   // 0 
   gemini_pro_e = "google/gemini-pro-1.5-exp",
+  gemini_1114e = "google/gemini-exp-1114",
   qwen2 = "qwen/qwen-2-72b-instruct",
   none = "none"
 }
