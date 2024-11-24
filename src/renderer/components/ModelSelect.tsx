@@ -15,7 +15,7 @@ const models = [
   // { name: "qwen2-72B", model: Model.qwen2 },
   // { name: "gem-p", model: Model.gemini_pro },
   { name: "gem-pe", model: Model.gemini_pro_e },
-  { name: "g1114", model: Model.gemini_1114e },
+  { name: "gem-e", model: Model.gemini_e },
 
   { name: "gpt-o1m", model: Model.gpt_o1_m },
 
@@ -77,8 +77,8 @@ export default function ModelSelect({
         return "4o";
       case Model.gpt_4o_m:
         return "gpt-4m";
-      case Model.gemini_1114e:
-        return "g1114e";
+      case Model.gemini_e:
+        return "gem";
       case Model.gemini_pro_e:
         return "g-pro-e";
       default:

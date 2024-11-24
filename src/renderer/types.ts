@@ -43,14 +43,14 @@ export enum Model {
   //2 2
   llama3_405 = "meta-llama/llama-3.1-405b-instruct",
   free = "mistralai/mistral-7b-instruct:free",
-  haiku = "anthropic/claude-3-haiku:beta",
+
   // 0.25_0.75
   gemini_flash = "google/gemini-flash-1.5",
   // 2.5 7.5
   gemini_pro = "google/gemini-pro-1.5",
   // 0 
-  gemini_pro_e = "google/gemini-pro-1.5-exp",
-  gemini_1114e = "google/gemini-exp-1114",
+  gemini_pro_e = "google/learnlm-1.5-pro-experimental:free",
+  gemini_e = "google/gemini-exp-1121:free",
   qwen2 = "qwen/qwen-2-72b-instruct",
   none = "none"
 }
