@@ -108,7 +108,7 @@ export default function Chat({
       />
       {/* Conversation messages */}
       <div
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-y-auto mb-28"
         ref={conversationListRef}
         onScroll={handleScroll}
       >
