@@ -5,7 +5,11 @@ import Icon from "../components/Icon";
 import IntroductionSplash from "../components/IntroductionSplash";
 import QuestionInputField from "../components/QuestionInputField";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { setAutoscroll, updateMessageContent } from "../store/conversation";
+import {
+  removeMessage,
+  setAutoscroll,
+  updateMessageContent,
+} from "../store/conversation";
 import { Conversation, Message, Role } from "../types";
 
 export default function Chat({
@@ -208,6 +212,21 @@ export default function Chat({
                           }}
                         >
                           <Icon icon="pencil" className="w-3 h-3" />
+                        </button>
+                        <button
+                          className="p-1.5 flex items-center rounded"
+                          data-tooltip-id="message-tooltip"
+                          data-tooltip-content="Delete this message"
+                          onClick={() => {
+                            dispatch(
+                              removeMessage({
+                                conversationId: conversation.id,
+                                messageId: message.id,
+                              })
+                            );
+                          }}
+                        >
+                          <Icon icon="close" className="w-3 h-3" />
                         </button>
                       </div>
                     )}
