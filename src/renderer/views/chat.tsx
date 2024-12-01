@@ -230,6 +230,25 @@ export default function Chat({
                         </button>
                       </div>
                     )}
+                    {message.role === Role.assistant && (
+                      <div className="flex items-center">
+                        <button
+                          className="p-1.5 flex items-center rounded"
+                          data-tooltip-id="message-tooltip"
+                          data-tooltip-content="Delete this message"
+                          onClick={() => {
+                            dispatch(
+                              removeMessage({
+                                conversationId: conversation.id,
+                                messageId: message.id,
+                              })
+                            );
+                          }}
+                        >
+                          <Icon icon="close" className="w-3 h-3" />
+                        </button>
+                      </div>
+                    )}
                   </header>
                   {message.isError ? (
                     <div className="text p-4 bg-red-700 rounded bg-opacity-10">
