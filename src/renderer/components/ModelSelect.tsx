@@ -5,7 +5,7 @@ import { Conversation, Model } from "../types";
 import Icon from "./Icon";
 
 const models = [
-  { name: "free", model: Model.free },
+  // { name: "free", model: Model.free },
   // { name: "gemini-flash",model:Model.gemini_flash},
   // { name: "wizardlm-2", model: Model.wizard },
   // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
@@ -14,14 +14,12 @@ const models = [
   // { name: "llama3-405b", model: Model.llama3_405 },
   // { name: "qwen2-72B", model: Model.qwen2 },
   // { name: "gem-p", model: Model.gemini_pro },
-  { name: "gem-pe", model: Model.gemini_pro_e },
-  { name: "gem-e", model: Model.gemini_e },
-
-  { name: "gpt-o1m", model: Model.gpt_o1_m },
-
+  // { name: "gem-pe", model: Model.gemini_pro_e },
+  // { name: "gem-e", model: Model.gemini_e },
   { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
-
+  { name: "gpt-o1m", model: Model.gpt_o1_m },
+  { name: "sonnet", model: Model.sonnet },
   // { name: "gpt-o1", model: Model.gpt_o1_p },
   // { name: "gpt4turbo", model: Model.gpt_4_turbo },
 ];
@@ -81,6 +79,8 @@ export default function ModelSelect({
         return "gem";
       case Model.gemini_pro_e:
         return "g-pro-e";
+      case Model.sonnet:
+        return "sonnet";
       default:
         return model;
     }

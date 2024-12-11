@@ -45,8 +45,8 @@ export class ApiProvider {
     temperature?: number;
     topP?: number;
   } = {}): AsyncGenerator<any, any, unknown> {
-    // if (!conversation.model) { throw new Error("model is undefined"); }
-    const model = conversation.model ?? Model.free;
+    if (!conversation.model) { throw new Error("model is undefined"); }
+    const model = conversation.model;
 
     // Only stream if not using a proxy
     const useStream = true; // this.apiConfig.basePath === 'https://api.openai.com/v1';
