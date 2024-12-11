@@ -52,7 +52,7 @@ export enum Model {
   gemini_pro_e = "google/learnlm-1.5-pro-experimental:free",
   gemini_e = "google/gemini-exp-1121:free",
   qwen2 = "qwen/qwen-2-72b-instruct",
-  sonnet = "anthropic/claude-3.5-sonnet:beta",
+  sonnet = "anthropic/claude-3.5-sonnet",
   none = "none"
 }
 

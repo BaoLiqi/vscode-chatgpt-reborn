@@ -1,7 +1,6 @@
 import * as he from "he";
 import hljs from 'highlight.js';
 import { marked } from "marked";
-import OpenAI, { ClientOptions } from "openai";
 import { v4 as uuidv4 } from "uuid";
 import * as vscode from 'vscode';
 import { ActionRunner } from "./actionRunner";
@@ -266,22 +265,12 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			switch (data.type) {
 				case 'appendFreeTextQuestion':
 					{
-						const dummyPrompt = "You are a helpful assistant.";
 						const apiRequestOptions = {
 							command: "freeText",
 							conversation: data.conversation ?? null,
 							questionId: data.questionId ?? null,
 							messageId: data.messageId ?? null,
 						} as ApiRequestOptions;
-						if (apiRequestOptions.conversation?.messages) {
-							apiRequestOptions.conversation?.messages.push({
-								id: uuidv4(),
-								content: dummyPrompt,
-								rawContent: dummyPrompt,
-								role: Role.system,
-								createdAt: Date.now(),
-							});
-						}
 						// if includeEditorSelection is true, add the code snippet to the question
 						if (data?.includeEditorSelection) {
 							const selection = this.getActiveEditorSelection();
@@ -290,26 +279,16 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 						}
 
 						this.dontSendApiRequest(data.value, apiRequestOptions);
-
 						break;
 					}
 				case 'addFreeTextQuestion':
-					const dummyPrompt = "You are a helpful assistant.";
 					const apiRequestOptions = {
 						command: "freeText",
 						conversation: data.conversation ?? null,
 						questionId: data.questionId ?? null,
 						messageId: data.messageId ?? null,
 					} as ApiRequestOptions;
-					if (apiRequestOptions.conversation?.messages) {
-						apiRequestOptions.conversation?.messages.push({
-							id: uuidv4(),
-							content: dummyPrompt,
-							rawContent: dummyPrompt,
-							role: Role.system,
-							createdAt: Date.now(),
-						});
-					}
+
 					// if includeEditorSelection is true, add the code snippet to the question
 					if (data?.includeEditorSelection) {
 						const selection = this.getActiveEditorSelection();
@@ -665,36 +644,6 @@ The assistant's response would be:
 		};
 	}
 
-	async getModels(): Promise<any[]> {
-		// Get OpenAI API key from secret store
-		const apiKey = await vscode.commands.executeCommand('chatgptReborn.getOpenAIApiKey') as string;
-
-		const configuration: ClientOptions = {
-			apiKey,
-		};
-
-		// if the organization id is set in settings, use it
-		const organizationId = await vscode.workspace.getConfiguration("chatgpt").get("organizationId") as string;
-		if (organizationId) {
-			configuration.organization = organizationId;
-		}
-
-		// if the api base url is set in settings, use it
-		const apiBaseUrl = await vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") as string;
-		if (apiBaseUrl) {
-			configuration.baseURL = apiBaseUrl;
-		}
-
-		try {
-			const openai = new OpenAI(configuration);
-			const response = await openai.models.list();
-
-			return response.data;
-		} catch (error) {
-			console.error('Main Process - Error getting models', error);
-			return [];
-		}
-	}
 
 	private processQuestion(question: string, conversation: Conversation, code?: string, language?: string): string {
 		let verbosity = '';
@@ -748,17 +697,6 @@ The assistant's response would be:
 	public async sendApiRequest(prompt: string, options: ApiRequestOptions) {
 		this.logEvent("api-request-sent", { "chatgpt.command": options.command, "chatgpt.hasCode": String(!!options.code) });
 		const responseInMarkdown = !this.isCodexModel;
-
-		// 1. First check if the conversation has any messages, if not add the system message
-		if (options.conversation?.messages.length === 0) {
-			options.conversation?.messages.push({
-				id: uuidv4(),
-				content: this.systemContext,
-				rawContent: this.systemContext,
-				role: Role.system,
-				createdAt: Date.now(),
-			});
-		}
 
 		// 2. Add the user's question to the conversation
 		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
@@ -963,17 +901,6 @@ The assistant's response would be:
 
 	public async dontSendApiRequest(prompt: string, options: ApiRequestOptions) {
 		const responseInMarkdown = true;
-
-		// 1. First check if the conversation has any messages, if not add the system message
-		if (options.conversation?.messages.length === 0) {
-			options.conversation?.messages.push({
-				id: uuidv4(),
-				content: this.systemContext,
-				rawContent: this.systemContext,
-				role: Role.system,
-				createdAt: Date.now(),
-			});
-		}
 
 		// 2. Add the user's question to the conversation
 		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
