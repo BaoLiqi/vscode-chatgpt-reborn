@@ -1,7 +1,7 @@
 
 vsix:
 	rm -f ./*.vsix
-	vsce package
+	time vsce package
 
 share: 
 	cp ./*.vsix ~/share
