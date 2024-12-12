@@ -38,7 +38,7 @@ export enum Model {
   gpt_35_turbo = "gpt-3.5-turbo",
   wizard = "microsoft/wizardlm-2-8x22b",
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
-  llama3_70b = "meta-llama/llama-3-70b-instruct",
+  llama3_70b = "meta-llama/llama-3.3-70b-instruct",
   llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
   //2 2
   llama3_405 = "meta-llama/llama-3.1-405b-instruct",

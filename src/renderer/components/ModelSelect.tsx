@@ -20,6 +20,7 @@ const models = [
   { name: "gpt-4o", model: Model.gpt_4o },
   { name: "gpt-o1m", model: Model.gpt_o1_m },
   { name: "sonnet", model: Model.sonnet },
+  { name: "llama3", model: Model.llama3_70b },
   // { name: "gpt-o1", model: Model.gpt_o1_p },
   // { name: "gpt4turbo", model: Model.gpt_4_turbo },
 ];
@@ -67,8 +68,6 @@ export default function ModelSelect({
 
   const friendlyName = (model: string): string => {
     switch (model) {
-      case Model.free:
-        return "M-7";
       case Model.gpt_o1_m:
         return "o1-m";
       case Model.gpt_4o:
@@ -81,6 +80,8 @@ export default function ModelSelect({
         return "g-pro-e";
       case Model.sonnet:
         return "sonnet";
+      case Model.llama3_70b:
+        return "llama3.3";
       default:
         return model;
     }
