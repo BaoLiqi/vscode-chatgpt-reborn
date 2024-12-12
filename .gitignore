@@ -7,3 +7,4 @@ node_modules
 !node_modules/chatgpt/build/index.js
 yarn-error.log
 temp
+out/
