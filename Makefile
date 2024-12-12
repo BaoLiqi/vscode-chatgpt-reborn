@@ -11,7 +11,6 @@ install:
 
 webview:tailwind
 	mkdir -p out
-	cp ./src/renderer/index.html out/
 	npx esbuild ./src/renderer/index.tsx --bundle --outfile=out/webview.bundle.js
 
 tailwind:
