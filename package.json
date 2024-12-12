@@ -576,7 +576,7 @@
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "yarn esbuild-base -- --sourcemap --watch",
     "watch:webview": "webpack --mode development --watch",
-    "build-webview": "webpack --mode production",
+    "build-webview": "make webview",
     "fmt": "prettier --write \"src/**/*.ts\" && yarn test -- --fix",
     "test": "eslint src --ext ts && tsc --noEmit"
   },

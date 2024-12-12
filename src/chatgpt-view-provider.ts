@@ -982,6 +982,7 @@ The assistant's response would be:
 		const vendorMarkedJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'marked.min.js'));
 		// React code bundled by webpack, this includes styling
 		const webpackScript = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'out', 'webview.bundle.js'));
+		const webpackCss = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'out', 'webview.bundle.css'));
 
 		const nonce = this.getRandomId();
 
@@ -997,6 +998,7 @@ The assistant's response would be:
 				<script src="${vendorHighlightJs}" defer async></script>
 				<script src="${vendorMarkedJs}" defer async></script>
 				<link href="${vendorHighlightCss}" rel="stylesheet">
+				<link href="${webpackCss}" rel="stylesheet">
 			</body>
 			</html>`;
 	}

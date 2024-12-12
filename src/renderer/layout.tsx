@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "react-tooltip/dist/react-tooltip.css";
 import { v4 as uuidv4 } from "uuid";
-import "../../styles/main.css";
+import "../../out/tailwind_out.css";
 import ApiKeySetup from "./components/ApiKeySetup";
 import Tabs from "./components/Tabs";
 import { useAppDispatch, useAppSelector } from "./hooks";
@@ -30,7 +30,7 @@ import { Conversation, Message, Role } from "./types";
 import { unEscapeHTML } from "./utils";
 import Chat from "./views/chat";
 
-export default function Layout({ vscode }: { vscode: any; }) {
+export default function Layout({ vscode }: { vscode: any }) {
   const dispatch = useAppDispatch();
   const currentConversationId = useAppSelector(
     (state: any) => state.conversation.currentConversationId
@@ -175,8 +175,8 @@ export default function Layout({ vscode }: { vscode: any; }) {
           done: true,
           questionCode: data?.code
             ? (window as any)?.marked.parse(
-              `\`\`\`${data?.editorLanguage}\n${data.code}\n\`\`\``
-            )
+                `\`\`\`${data?.editorLanguage}\n${data.code}\n\`\`\``
+              )
             : "",
         } as Message;
 
@@ -257,8 +257,8 @@ export default function Layout({ vscode }: { vscode: any; }) {
           !data.responseInMarkdown
             ? "```\r\n" + unEscapeHTML(data.value) + " \r\n ```"
             : (data?.value ?? "").split("```").length % 2 === 1
-              ? data.value
-              : data.value + "\n\n```\n\n"
+            ? data.value
+            : data.value + "\n\n```\n\n"
         );
 
         if (existingMessage) {
@@ -356,7 +356,11 @@ export default function Layout({ vscode }: { vscode: any; }) {
         );
 
         // if the current conversation verbosity and model haven't been set yet, set them based on the settings
-        if (!currentConversation?.model || !currentConversation?.verbosity || !currentConversation?.bot) {
+        if (
+          !currentConversation?.model ||
+          !currentConversation?.verbosity ||
+          !currentConversation?.bot
+        ) {
           dispatch(
             setModel({
               conversationId: currentConversationId,
@@ -480,7 +484,7 @@ export default function Layout({ vscode }: { vscode: any; }) {
   return (
     <>
       {apiKeyStatus === ApiKeyStatus.Unknown ||
-        apiKeyStatus === ApiKeyStatus.Valid ? (
+      apiKeyStatus === ApiKeyStatus.Valid ? (
         <>
           {!settings?.minimalUI && !settings?.disableMultipleConversations && (
             <Tabs
