@@ -15,7 +15,7 @@ webview:tailwind
 
 tailwind:
 	mkdir -p out
-	npx tailwindcss -i ./styles/main.css -o ./out/tailwind_out.css
+	npx tailwindcss -c ./styles/tailwind.config.js -i ./styles/main.css -o ./out/tailwind_out.css
 
 clean:
 	rm -rf out
