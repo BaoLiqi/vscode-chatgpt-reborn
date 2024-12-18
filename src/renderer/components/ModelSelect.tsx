@@ -6,23 +6,15 @@ import Icon from "./Icon";
 
 const models = [
   // { name: "free", model: Model.free },
-  // { name: "gemini-flash",model:Model.gemini_flash},
-  // { name: "wizardlm-2", model: Model.wizard },
-  // { name: "mistral8x22instruct", model: Model.mistral8x22b_instruct },
-  // { name: "llama3-70b", model: Model.llama3_70b },
-  // { name: "llama3-nitro", model: Model.llama3_70b_nitro },
-  // { name: "llama3-405b", model: Model.llama3_405 },
-  // { name: "qwen2-72B", model: Model.qwen2 },
   // { name: "gem-p", model: Model.gemini_pro },
   // { name: "gem-pe", model: Model.gemini_pro_e },
   // { name: "gem-e", model: Model.gemini_e },
+  { name: "llama3", model: Model.llama3_70b },
   { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
   { name: "gpt-o1m", model: Model.gpt_o1_m },
-  { name: "sonnet", model: Model.sonnet },
-  { name: "llama3", model: Model.llama3_70b },
-  // { name: "gpt-o1", model: Model.gpt_o1_p },
-  // { name: "gpt4turbo", model: Model.gpt_4_turbo },
+  { name: "gpt-o1", model: Model.gpt_o1 },
+  // { name: "sonnet", model: Model.sonnet },
 ];
 
 export default function ModelSelect({
@@ -70,14 +62,12 @@ export default function ModelSelect({
     switch (model) {
       case Model.gpt_o1_m:
         return "o1-m";
+      case Model.gpt_o1:
+        return "o1";
       case Model.gpt_4o:
         return "4o";
       case Model.gpt_4o_m:
         return "gpt-4m";
-      case Model.gemini_e:
-        return "gem";
-      case Model.gemini_pro_e:
-        return "g-pro-e";
       case Model.sonnet:
         return "sonnet";
       case Model.llama3_70b:
