@@ -2,7 +2,6 @@ import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "react-tooltip/dist/react-tooltip.css";
 import { v4 as uuidv4 } from "uuid";
-import "../../out/tailwind_out.css";
 import ApiKeySetup from "./components/ApiKeySetup";
 import Tabs from "./components/Tabs";
 import { useAppDispatch, useAppSelector } from "./hooks";
@@ -26,6 +25,7 @@ import {
   updateMessage,
   updateMessageContent,
 } from "./store/conversation";
+import "./tailwind_out.css";
 import { Conversation, Message, Role } from "./types";
 import { unEscapeHTML } from "./utils";
 import Chat from "./views/chat";
