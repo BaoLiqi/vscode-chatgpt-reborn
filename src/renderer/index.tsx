@@ -7,7 +7,17 @@ import "../../styles/main.css";
 import Layout from "./layout";
 import { store } from "./store";
 
-let vscode = acquireVsCodeApi();
+let vscode: any = undefined;
+
+try {
+  vscode = acquireVsCodeApi();
+} catch (error) {
+  vscode = {
+    postMessage: function (message: any) {
+      console.log("Dummy vscode.postMessage:", message);
+    },
+  };
+}
 
 const App = () => {
   if (!vscode) {

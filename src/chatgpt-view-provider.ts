@@ -981,8 +981,8 @@ The assistant's response would be:
 		const vendorHighlightJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'highlight.min.js'));
 		const vendorMarkedJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'marked.min.js'));
 		// React code bundled by webpack, this includes styling
-		const webpackScript = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'out', 'webview.bundle.js'));
-		const webpackCss = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'out', 'webview.bundle.css'));
+		const webviewJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'out', 'webview.bundle.js'));
+		const webviewCss = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'out', 'webview.bundle.css'));
 
 		const nonce = this.getRandomId();
 
@@ -994,11 +994,11 @@ The assistant's response would be:
 			</head>
 			<body class="overflow-hidden">
 				<div id="root" class="flex flex-col h-screen"></div>
-				<script nonce="${nonce}" src="${webpackScript}"></script>
+				<script nonce="${nonce}" src="${webviewJs}"></script>
 				<script src="${vendorHighlightJs}" defer async></script>
 				<script src="${vendorMarkedJs}" defer async></script>
 				<link href="${vendorHighlightCss}" rel="stylesheet">
-				<link href="${webpackCss}" rel="stylesheet">
+				<link href="${webviewCss}" rel="stylesheet">
 			</body>
 			</html>`;
 	}
