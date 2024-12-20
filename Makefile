@@ -10,7 +10,7 @@ install:
 	code --install-extension *.vsix
 
 http:
-	yarn build:webview
+	yarn build:browser
 	python3 -m http.server 8000 --directory ./out
 	
 clean:

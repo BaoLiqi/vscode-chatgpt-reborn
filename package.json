@@ -576,8 +576,9 @@
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "yarn esbuild-base -- --sourcemap --watch",
     "watch:webview": "yarn build:webview",
-    "build:webview": "yarn build:css && npx esbuild ./src/renderer/index.tsx --bundle --outfile=out/webview.bundle.js &&cp index.html out",
+    "build:webview": "yarn build:css && npx esbuild ./src/renderer/index.tsx --bundle --outfile=out/webview.bundle.js",
     "build:css": "npx tailwindcss -c ./styles/tailwind.config.js -i ./styles/main.css -o ./styles/tailwind_out.css",
+    "build:browser": "yarn build:webview && cp index.html out && cp media/vendor/* out",
     "fmt": "prettier --write \"src/**/*.ts\" && yarn test -- --fix",
     "test": "eslint src --ext ts && tsc --noEmit"
   },
