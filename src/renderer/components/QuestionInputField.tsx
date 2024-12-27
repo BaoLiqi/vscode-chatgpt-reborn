@@ -91,7 +91,7 @@ export default ({
               type: "proofreader",
               value: questionInputRef.current.value,
               conversation: updatedConversation,
-              includeEditorSelection: useEditorSelection,
+              includeEditorSelection: false,
             });
             break;
           case Bot.summary: {
