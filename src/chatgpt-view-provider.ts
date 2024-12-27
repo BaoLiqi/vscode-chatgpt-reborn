@@ -266,10 +266,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 				case 'appendFreeTextQuestion':
 					{
 						const apiRequestOptions = {
-							command: "freeText",
 							conversation: data.conversation ?? null,
-							questionId: data.questionId ?? null,
-							messageId: data.messageId ?? null,
 						} as ApiRequestOptions;
 						// if includeEditorSelection is true, add the code snippet to the question
 						if (data?.includeEditorSelection) {
@@ -897,50 +894,28 @@ The assistant's response would be:
 	}
 
 	public async dontSendApiRequest(prompt: string, options: ApiRequestOptions) {
-		const responseInMarkdown = true;
-
-		// 2. Add the user's question to the conversation
 		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
-		if (options?.questionId) {
-			// find the question in the conversation and update it
-			const question = options.conversation?.messages.find((message) => message.id === options.questionId);
-			if (question) {
-				question.content = this.formatMessageContent(formattedPrompt, responseInMarkdown);
-				question.rawContent = formattedPrompt;
-				question.questionCode = options?.code
-					? marked.parse(
-						`\`\`\`${options?.language}\n${options.code}\n\`\`\``
-					)
-					: "";
-			}
-		} else {
-			options.conversation?.messages.push({
-				id: uuidv4(),
-				content: formattedPrompt,
-				rawContent: prompt,
-				questionCode: options?.code
-					? marked.parse(
-						`\`\`\`${options?.language}\n${options.code}\n\`\`\``
-					)
-					: "",
-				role: Role.user,
-				createdAt: Date.now(),
-			});
-		}
 
-		// 3. Tell the webview about the new messages
+		options.conversation?.messages.push({
+			id: uuidv4(),
+			content: formattedPrompt,
+			rawContent: prompt,
+			questionCode: options?.code
+				? marked.parse(
+					`\`\`\`${options?.language}\n${options.code}\n\`\`\``
+				)
+				: "",
+			role: Role.user,
+			createdAt: Date.now(),
+		});
+
+		// Tell the webview about the new messages
 		this.sendMessage({
 			type: 'messagesUpdated',
 			messages: options.conversation?.messages,
 			conversationId: options.conversation?.id ?? '',
 		});
 
-		// If the ChatGPT view is not in focus/visible; focus on it to render Q&A
-		if (this.webView === null) {
-			vscode.commands.executeCommand('vscode-chatgpt.view.focus');
-		} else {
-			this.webView?.show?.(true);
-		}
 	}
 
 	/**
