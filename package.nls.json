@@ -142,7 +142,7 @@
     "tabs.new_chat": "New Chat",
     "verbosity.codeLabel": "Code",
     "verbosity.conciseLabel": "Concise",
-    "verbosity.normalLabel": "N",
+    "verbosity.normalLabel": "Normal",
     "verbosity.fullLabel": "Detailed",
     "verbosity.codeDescription": "Only reply with code",
     "verbosity.conciseDescription": "Concise explanations",

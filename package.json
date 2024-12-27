@@ -460,25 +460,9 @@
         },
         "chatgpt.gpt3.model": {
           "type": "string",
-          "enum": [
-            "gpt-4-0409-preview",
-            "gpt-3.5-turbo",
-            "gpt-3.5-turbo-16k",
-            "mistralai-mistral-7b-instruct-free",
-            "microsoft/wizardlm-2-8x22b",
-            "mistralai/mixtral-8x22b-instruct",
-            "meta-llama/llama-3-70b-instruct:nitro",
-            "anthropic/claude-3-haiku:beta"
-          ],
-          "default": "gpt-3.5-turbo",
+          "default": "meta-llama/llama-3.3-70b-instruct",
           "markdownDescription": "OpenAI models to use for your prompts. [Documentation](https://beta.openai.com/docs/models/models). \n\n**If you face 400 Bad Request please make sure you are using the right model for your integration method.**",
           "order": 36
-        },
-        "chatgpt.gpt3.maxTokens": {
-          "type": "number",
-          "default": 4000,
-          "markdownDescription": "NOTE - THIS CONFIG IS NOW DISABLED, and might be totally removed in the future. If you think this config setting should stay, please comment it in the GitHub repository that you find it useful.",
-          "order": 37
         },
         "chatgpt.gpt3.temperature": {
           "type": "number",
@@ -532,8 +516,7 @@
           "enum": [
             "code",
             "concise",
-            "normal",
-            "full"
+            "normal"
           ],
           "default": "normal",
           "description": "How verbose should ChatGPT's response be?",
@@ -541,8 +524,7 @@
           "enumItemLabels": [
             "Code",
             "Concise",
-            "Normal",
-            "Full"
+            "Normal"
           ],
           "chatgpt.bot": {
             "type": "string",

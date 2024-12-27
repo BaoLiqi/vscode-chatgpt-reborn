@@ -31,8 +31,6 @@ export default function VerbositySelect({
         return t?.verbosity?.conciseLabel ?? "Concise";
       case Verbosity.normal:
         return t?.verbosity?.normalLabel ?? "Normal";
-      case Verbosity.full:
-        return t?.verbosity?.fullLabel ?? "Detailed";
     }
   };
 
@@ -44,8 +42,6 @@ export default function VerbositySelect({
         return t?.verbosity?.conciseDescription ?? "Concise explanations";
       case Verbosity.normal:
         return t?.verbosity?.normalDescription ?? "Normal explanations";
-      case Verbosity.full:
-        return t?.verbosity?.fullDescription ?? "Detailed, full explanations";
     }
   };
 

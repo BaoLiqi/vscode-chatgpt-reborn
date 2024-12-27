@@ -654,9 +654,6 @@ The assistant's response would be:
 			case Verbosity.concise:
 				verbosity = 'Your explanations should be as concise and to the point as possible, one or two sentences at most.';
 				break;
-			case Verbosity.full:
-				verbosity = 'You should give full explanations that are as detailed as possible.';
-				break;
 		}
 
 		if (code !== null && code !== undefined) {
@@ -696,7 +693,7 @@ The assistant's response would be:
 
 	public async sendApiRequest(prompt: string, options: ApiRequestOptions) {
 		this.logEvent("api-request-sent", { "chatgpt.command": options.command, "chatgpt.hasCode": String(!!options.code) });
-		const responseInMarkdown = !this.isCodexModel;
+		const responseInMarkdown = true;
 
 		// 2. Add the user's question to the conversation
 		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);

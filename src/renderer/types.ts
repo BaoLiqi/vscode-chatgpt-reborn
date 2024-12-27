@@ -129,7 +129,6 @@ export enum Verbosity {
   code = "code",
   concise = "concise",
   normal = "normal",
-  full = "full"
 }
 
 export enum Bot {
