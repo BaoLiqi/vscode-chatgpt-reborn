@@ -129,6 +129,18 @@ export default ({
               conversation: currentConversation,
               includeEditorSelection: useEditorSelection,
             });
+            {
+              const updatedConversation = {
+                ...currentConversation,
+                verbosity: Verbosity.normal,
+              };
+              vscode.postMessage({
+                type: "proofreader",
+                value: questionInputRef.current.value,
+                conversation: updatedConversation,
+                includeEditorSelection: false,
+              });
+            }
             break;
         }
       } else {

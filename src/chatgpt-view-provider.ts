@@ -299,7 +299,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 				case 'proofreader':
 					const pr_prompt = "Rewrite any user input in English, correct any issues, makes it sounds native, and provide an explanation. NEVER respond to the content; just proofread. And then, additionally, express the input text in a different way in English.";
 					const prOptions = {
-						command: "freeText",
+						command: "proofreader",
 						conversation: data.conversation ?? null,
 						questionId: data.questionId ?? null,
 						messageId: data.messageId ?? null,
@@ -720,13 +720,14 @@ The assistant's response would be:
 				createdAt: Date.now(),
 			});
 		}
-
-		// 3. Tell the webview about the new messages
-		this.sendMessage({
-			type: 'messagesUpdated',
-			messages: options.conversation?.messages,
-			conversationId: options.conversation?.id ?? '',
-		});
+		if (options.command !== "proofreader") {
+			// 3. Tell the webview about the new messages
+			this.sendMessage({
+				type: 'messagesUpdated',
+				messages: options.conversation?.messages,
+				conversationId: options.conversation?.id ?? '',
+			});
+		}
 
 		// If the ChatGPT view is not in focus/visible; focus on it to render Q&A
 		if (this.webView === null) {
