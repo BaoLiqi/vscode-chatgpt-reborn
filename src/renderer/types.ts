@@ -133,7 +133,6 @@ export enum Verbosity {
 
 export enum Bot {
   basic = "basic",
-  proofreader = "proofreader",
   summary = "summary",
   tutor = "tutor"
 }
