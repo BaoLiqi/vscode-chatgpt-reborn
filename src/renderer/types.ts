@@ -36,12 +36,12 @@ export enum Model {
   gpt_4o = "openai/gpt-4o-2024-11-20",
   gpt_4_turbo = "openai/gpt-4-turbo",
   gpt_35_turbo = "gpt-3.5-turbo",
-  wizard = "microsoft/wizardlm-2-8x22b",
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
   llama3_70b = "meta-llama/llama-3.3-70b-instruct",
   llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
   //2 2
   llama3_405 = "meta-llama/llama-3.1-405b-instruct",
+  deepseek3 = "deepseek/deepseek-chat",
   free = "mistralai/mistral-7b-instruct:free",
 
   // 0.25_0.75
@@ -133,6 +133,7 @@ export enum Verbosity {
 
 export enum Bot {
   basic = "basic",
+  proofreader = "proofreader",
   summary = "summary",
   tutor = "tutor"
 }

@@ -108,9 +108,7 @@ export default ({
             });
             break;
           }
-
-          case Bot.basic:
-          default:
+          case Bot.proofreader:
             vscode.postMessage({
               type: "addFreeTextQuestion",
               value: questionInputRef.current.value,
@@ -129,6 +127,15 @@ export default ({
                 includeEditorSelection: false,
               });
             }
+            break;
+          case Bot.basic:
+          default:
+            vscode.postMessage({
+              type: "addFreeTextQuestion",
+              value: questionInputRef.current.value,
+              conversation: currentConversation,
+              includeEditorSelection: useEditorSelection,
+            });
             break;
         }
       } else {
