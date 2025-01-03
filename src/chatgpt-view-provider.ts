@@ -732,10 +732,11 @@ The assistant's response would be:
 			this.addNewQuestion(options, formattedPrompt, prompt);
 		}
 
+		// Tell the webview about the new messages
 		if (options.command !== "proofreader") {
 			this.sendMessage({
-				type: 'messagesUpdated',
-				messages: options.conversation?.messages,
+				type: 'addMessage',
+				message: options.conversation?.messages[options.conversation.messages.length - 1],
 				conversationId: options.conversation?.id ?? '',
 			});
 		}
@@ -919,11 +920,10 @@ The assistant's response would be:
 
 		// Tell the webview about the new messages
 		this.sendMessage({
-			type: 'messagesUpdated',
-			messages: options.conversation?.messages,
+			type: 'addMessage',
+			message: options.conversation?.messages[options.conversation.messages.length - 1],
 			conversationId: options.conversation?.id ?? '',
 		});
-
 	}
 
 	/**
