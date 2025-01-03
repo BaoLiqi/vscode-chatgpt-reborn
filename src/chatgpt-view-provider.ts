@@ -690,225 +690,232 @@ The assistant's response would be:
 
 	public async sendApiRequest(prompt: string, options: ApiRequestOptions) {
 		this.logEvent("api-request-sent", { "chatgpt.command": options.command, "chatgpt.hasCode": String(!!options.code) });
+
+		this.handleWebViewFocus();
+		this.updateConversationWithPrompt(prompt, options);
+		this.sendInProgressMessage(options.conversation?.id ?? '', true);
+
+		try {
+			const message = this.createMessage(options);
+			this.initializeMessageInWebView(message, options);
+
+			if (this.chatMode) {
+				await this.streamChatCompletion(message, options);
+			} else {
+				this.logEvent('chat-mode-off (not sending message)');
+			}
+
+			this.handleIncompleteResponse(message, options);
+			this.notifyResponseIfSubscribed();
+		} catch (error: any) {
+			this.handleError(error, options);
+		} finally {
+			this.sendInProgressMessage(options.conversation?.id ?? '', false);
+		}
+	}
+
+	private handleWebViewFocus() {
+		if (this.webView === null) {
+			vscode.commands.executeCommand('vscode-chatgpt.view.focus');
+		} else {
+			this.webView?.show?.(true);
+		}
+	}
+
+	private updateConversationWithPrompt(prompt: string, options: ApiRequestOptions) {
+		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
 		const responseInMarkdown = true;
 
-		// 2. Add the user's question to the conversation
-		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
 		if (options?.questionId) {
-			// find the question in the conversation and update it
-			const question = options.conversation?.messages.find((message) => message.id === options.questionId);
-			if (question) {
-				question.content = this.formatMessageContent(formattedPrompt, responseInMarkdown);
-				question.rawContent = formattedPrompt;
-				question.questionCode = options?.code
-					? marked.parse(
-						`\`\`\`${options?.language}\n${options.code}\n\`\`\``
-					)
-					: "";
-			}
+			this.updateExistingQuestion(options, formattedPrompt, responseInMarkdown);
 		} else {
-			options.conversation?.messages.push({
-				id: uuidv4(),
-				content: formattedPrompt,
-				rawContent: prompt,
-				questionCode: options?.code
-					? marked.parse(
-						`\`\`\`${options?.language}\n${options.code}\n\`\`\``
-					)
-					: "",
-				role: Role.user,
-				createdAt: Date.now(),
-			});
+			this.addNewQuestion(options, formattedPrompt, prompt);
 		}
+
 		if (options.command !== "proofreader") {
-			// 3. Tell the webview about the new messages
 			this.sendMessage({
 				type: 'messagesUpdated',
 				messages: options.conversation?.messages,
 				conversationId: options.conversation?.id ?? '',
 			});
 		}
+	}
 
-		// If the ChatGPT view is not in focus/visible; focus on it to render Q&A
-		if (this.webView === null) {
-			vscode.commands.executeCommand('vscode-chatgpt.view.focus');
-		} else {
-			this.webView?.show?.(true);
-		}
-
-		// Tell the webview that this conversation is in progress
-		this.sendMessage({
-			type: 'showInProgress',
-			inProgress: true,
-			conversationId: options.conversation?.id ?? '',
-		});
-
-		try {
-			const message: Message = {
-				// Normally random ID is generated, but when editing a question, the response update the same message
-				id: options?.messageId ?? uuidv4(),
-				content: '',
-				rawContent: '',
-				role: Role.assistant,
-				createdAt: Date.now(),
-			};
-
-			// Initialize message in webview. Now event streaming only needs to update the message content
-			if (options?.messageId) {
-				this.sendMessage({
-					type: 'updateMessage',
-					message: message,
-					conversationId: options.conversation?.id ?? '',
-				});
-			} else {
-				this.sendMessage({
-					type: 'addMessage',
-					message: message,
-					conversationId: options.conversation?.id ?? '',
-				});
-			}
-
-			if (this.chatMode) {
-				let lastMessageTime = 0;
-				const controller = new AbortController();
-				this.abortControllers.push({ conversationId: options.conversation?.id ?? '', controller });
-
-				// Stream ChatGPT response (this is using an async iterator)
-				for await (const token of this.api.streamChatCompletion(options.conversation, controller.signal, {
-					temperature: options.temperature ?? this._temperature,
-					topP: options.topP ?? this._topP,
-				})) {
-					message.rawContent += token;
-
-					const now = Date.now();
-					// Throttle the number of messages sent to the webview
-					if (now - lastMessageTime > this.throttling) {
-						message.content = this.formatMessageContent((message.rawContent ?? ''), responseInMarkdown);
-
-						// Send webview updated message content
-						this.sendMessage({
-							type: 'streamMessage',
-							conversationId: options.conversation.id ?? '',
-							messageId: message.id,
-							content: message.content,
-						});
-
-						lastMessageTime = now;
-					}
-				}
-
-				// remove the abort controller
-				this.abortControllers = this.abortControllers.filter((controller) => controller.conversationId !== options.conversation?.id);
-
-				message.done = true;
-				message.content = this.formatMessageContent(message.rawContent ?? "", responseInMarkdown);
-
-				// Send webview full updated message
-				this.sendMessage({
-					type: 'updateMessage',
-					conversationId: options.conversation.id ?? '',
-					message: message,
-				});
-			} else {
-				this.logEvent('chat-mode-off (not sending message)');
-			}
-
-			const hasContinuation = ((message.content.split("```").length) % 2) === 0;
-
-			if (hasContinuation) {
-				message.content = message.content + " \r\n ```\r\n";
-				vscode.window.showInformationMessage("It looks like ChatGPT didn't complete their answer for your coding question. You can ask it to continue and combine the answers.", "Continue and combine answers")
-					.then(async (choice) => {
-						if (choice === "Continue and combine answers") {
-							this.sendApiRequest("Continue", {
-								command: options.command,
-								conversation: options.conversation,
-								code: undefined,
-							});
-						}
-					});
-			}
-
-			if (this.subscribeToResponse) {
-				vscode.window.showInformationMessage("ChatGPT responded to your question.", "Open conversation").then(async () => {
-					await vscode.commands.executeCommand('vscode-chatgpt.view.focus');
-				});
-			}
-		} catch (error: any) {
-			let message;
-			let apiMessage = error?.response?.data?.error?.message || error?.tostring?.() || error?.message || error?.name;
-
-			console.error("api-request-failed info:", JSON.stringify(error, null, 2));
-			console.error("api-request-failed error obj:", error);
-			// For whatever reason error.status is undefined, but the below works
-			const status = JSON.parse(JSON.stringify(error)).status ?? error?.status ?? error?.response?.status ?? error?.response?.data?.error?.status;
-
-			switch (status) {
-				case 400:
-					message = `400 Bad Request\n\nYour model: '${this.model}' may be incompatible or one of your parameters is unknown. Reset your settings to default.`;
-					break;
-				case 401:
-					message = '401 Unauthorized\n\nMake sure your API key is correct, you can reset it by going to "More Actions" > "Reset API Key". Potential reasons: \n- 1. Incorrect API key provided.\n- 2. Incorrect Organization provided. \n See https://platform.openai.com/docs/guides/error-codes for more details.';
-					break;
-				case 403:
-					message = '403 Forbidden\n\nYour token has expired. Please try authenticating again.';
-					break;
-				case 404:
-					message = `404 Not Found\n\n`;
-
-					// For certain certain proxy paths, recommand a fix
-					if (this.api.apiConfig.baseURL?.includes("openai.1rmb.tk") && this.api.apiConfig.baseURL !== "https://openai.1rmb.tk/v1") {
-						message += "It looks like you are using the openai.1rmb.tk proxy server, but the path might be wrong.\nThe recommended path is https://openai.1rmb.tk/v1";
-					} else {
-						message += `If you've changed the API baseUrlPath, double-check that it is correct.\nYour model: '${this.model}' may be incompatible or you may have exhausted your ChatGPT subscription allowance.`;
-					}
-					break;
-				case 429:
-					message = "429 Too Many Requests\n\nToo many requests try again later. Potential reasons: \n 1. You exceeded your current quota, please check your plan and billing details\n 2. You are sending requests too quickly \n 3. The engine is currently overloaded, please try again later. \n See https://platform.openai.com/docs/guides/error-codes for more details.";
-					break;
-				case 500:
-					message = "500 Internal Server Error\n\nThe server had an error while processing your request, please try again.\nSee https://platform.openai.com/docs/guides/error-codes for more details.";
-					break;
-				default:
-					if (apiMessage) {
-						message = `${status ? status + '\n\n' : ''}${apiMessage}`;
-					} else {
-						message = `${status}\n\nAn unknown error occurred. Please check your internet connection, clear the conversation, and try again.\n\n${apiMessage}`;
-					}
-			}
-
-			this.sendMessage({
-				type: 'addError',
-				id: uuidv4(),
-				conversationId: options.conversation.id,
-				value: message,
-			});
-
-			return;
-		} finally {
-			this.sendMessage({
-				type: 'showInProgress',
-				conversationId: options.conversation.id,
-				inProgress: false,
-			});
+	private updateExistingQuestion(options: ApiRequestOptions, formattedPrompt: string, responseInMarkdown: boolean) {
+		const question = options.conversation?.messages.find((message) => message.id === options.questionId);
+		if (question) {
+			question.content = this.formatMessageContent(formattedPrompt, responseInMarkdown);
+			question.rawContent = formattedPrompt;
+			question.questionCode = options?.code
+				? marked.parse(`\`\`\`${options?.language}\n${options.code}\n\`\`\``)
+				: "";
 		}
 	}
 
-	public async dontSendApiRequest(prompt: string, options: ApiRequestOptions) {
-		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
-
+	private addNewQuestion(options: ApiRequestOptions, formattedPrompt: string, prompt: string) {
 		options.conversation?.messages.push({
 			id: uuidv4(),
 			content: formattedPrompt,
 			rawContent: prompt,
 			questionCode: options?.code
-				? marked.parse(
-					`\`\`\`${options?.language}\n${options.code}\n\`\`\``
-				)
+				? marked.parse(`\`\`\`${options?.language}\n${options.code}\n\`\`\``)
 				: "",
 			role: Role.user,
 			createdAt: Date.now(),
 		});
+	}
+
+	private sendInProgressMessage(conversationId: string, inProgress: boolean) {
+		this.sendMessage({
+			type: 'showInProgress',
+			inProgress: inProgress,
+			conversationId: conversationId,
+		});
+	}
+
+	private createMessage(options: ApiRequestOptions): Message {
+		return {
+			id: options?.messageId ?? uuidv4(),
+			content: '',
+			rawContent: '',
+			role: Role.assistant,
+			createdAt: Date.now(),
+		};
+	}
+
+	private initializeMessageInWebView(message: Message, options: ApiRequestOptions) {
+		if (options?.messageId) {
+			this.sendMessage({
+				type: 'updateMessage',
+				message: message,
+				conversationId: options.conversation?.id ?? '',
+			});
+		} else {
+			this.sendMessage({
+				type: 'addMessage',
+				message: message,
+				conversationId: options.conversation?.id ?? '',
+			});
+		}
+	}
+
+	private async streamChatCompletion(message: Message, options: ApiRequestOptions) {
+		let lastMessageTime = 0;
+		const controller = new AbortController();
+		this.abortControllers.push({ conversationId: options.conversation?.id ?? '', controller });
+
+		for await (const token of this.api.streamChatCompletion(options.conversation, controller.signal, {
+			temperature: options.temperature ?? this._temperature,
+			topP: options.topP ?? this._topP,
+		})) {
+			message.rawContent += token;
+
+			const now = Date.now();
+			if (now - lastMessageTime > this.throttling) {
+				message.content = this.formatMessageContent((message.rawContent ?? ''), true);
+
+				this.sendMessage({
+					type: 'streamMessage',
+					conversationId: options.conversation.id ?? '',
+					messageId: message.id,
+					content: message.content,
+				});
+
+				lastMessageTime = now;
+			}
+		}
+
+		this.abortControllers = this.abortControllers.filter((controller) => controller.conversationId !== options.conversation?.id);
+
+		message.done = true;
+		message.content = this.formatMessageContent(message.rawContent ?? "", true);
+
+		this.sendMessage({
+			type: 'updateMessage',
+			conversationId: options.conversation.id ?? '',
+			message: message,
+		});
+	}
+
+	private handleIncompleteResponse(message: Message, options: ApiRequestOptions) {
+		const hasContinuation = ((message.content.split("```").length) % 2) === 0;
+
+		if (hasContinuation) {
+			message.content = message.content + " \r\n ```\r\n";
+			vscode.window.showInformationMessage("It looks like ChatGPT didn't complete their answer for your coding question. You can ask it to continue and combine the answers.", "Continue and combine answers")
+				.then(async (choice) => {
+					if (choice === "Continue and combine answers") {
+						this.sendApiRequest("Continue", {
+							command: options.command,
+							conversation: options.conversation,
+							code: undefined,
+						});
+					}
+				});
+		}
+	}
+
+	private notifyResponseIfSubscribed() {
+		if (this.subscribeToResponse) {
+			vscode.window.showInformationMessage("ChatGPT responded to your question.", "Open conversation").then(async () => {
+				await vscode.commands.executeCommand('vscode-chatgpt.view.focus');
+			});
+		}
+	}
+
+	private handleError(error: any, options: ApiRequestOptions) {
+		let message;
+		let apiMessage = error?.response?.data?.error?.message || error?.tostring?.() || error?.message || error?.name;
+
+		console.error("api-request-failed info:", JSON.stringify(error, null, 2));
+		console.error("api-request-failed error obj:", error);
+		const status = JSON.parse(JSON.stringify(error)).status ?? error?.status ?? error?.response?.status ?? error?.response?.data?.error?.status;
+
+		switch (status) {
+			case 400:
+				message = `400 Bad Request\n\nYour model: '${this.model}' may be incompatible or one of your parameters is unknown. Reset your settings to default.`;
+				break;
+			case 401:
+				message = '401 Unauthorized\n\nMake sure your API key is correct, you can reset it by going to "More Actions" > "Reset API Key". Potential reasons: \n- 1. Incorrect API key provided.\n- 2. Incorrect Organization provided. \n See https://platform.openai.com/docs/guides/error-codes for more details.';
+				break;
+			case 403:
+				message = '403 Forbidden\n\nYour token has expired. Please try authenticating again.';
+				break;
+			case 404:
+				message = `404 Not Found\n\n`;
+
+				if (this.api.apiConfig.baseURL?.includes("openai.1rmb.tk") && this.api.apiConfig.baseURL !== "https://openai.1rmb.tk/v1") {
+					message += "It looks like you are using the openai.1rmb.tk proxy server, but the path might be wrong.\nThe recommended path is https://openai.1rmb.tk/v1";
+				} else {
+					message += `If you've changed the API baseUrlPath, double-check that it is correct.\nYour model: '${this.model}' may be incompatible or you may have exhausted your ChatGPT subscription allowance.`;
+				}
+				break;
+			case 429:
+				message = "429 Too Many Requests\n\nToo many requests try again later. Potential reasons: \n 1. You exceeded your current quota, please check your plan and billing details\n 2. You are sending requests too quickly \n 3. The engine is currently overloaded, please try again later. \n See https://platform.openai.com/docs/guides/error-codes for more details.";
+				break;
+			case 500:
+				message = "500 Internal Server Error\n\nThe server had an error while processing your request, please try again.\nSee https://platform.openai.com/docs/guides/error-codes for more details.";
+				break;
+			default:
+				if (apiMessage) {
+					message = `${status ? status + '\n\n' : ''}${apiMessage}`;
+				} else {
+					message = `${status}\n\nAn unknown error occurred. Please check your internet connection, clear the conversation, and try again.\n\n${apiMessage}`;
+				}
+		}
+
+		this.sendMessage({
+			type: 'addError',
+			id: uuidv4(),
+			conversationId: options.conversation.id,
+			value: message,
+		});
+	}
+
+	public async dontSendApiRequest(prompt: string, options: ApiRequestOptions) {
+		const formattedPrompt = this.processQuestion(prompt, options.conversation, options.code, options.language);
+
+		this.addNewQuestion(options, formattedPrompt, prompt);
 
 		// Tell the webview about the new messages
 		this.sendMessage({
