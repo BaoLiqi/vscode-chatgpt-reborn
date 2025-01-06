@@ -134,6 +134,7 @@ export enum Verbosity {
 export enum Bot {
   basic = "basic",
   proofreader = "proofreader",
+  hybrid = "hybrid",
   summary = "summary",
   tutor = "tutor"
 }

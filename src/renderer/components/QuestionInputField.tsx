@@ -109,12 +109,6 @@ export default ({
             break;
           }
           case Bot.proofreader:
-            vscode.postMessage({
-              type: "addFreeTextQuestion",
-              value: questionInputRef.current.value,
-              conversation: currentConversation,
-              includeEditorSelection: useEditorSelection,
-            });
             {
               const updatedConversation = {
                 ...currentConversation,
@@ -127,6 +121,26 @@ export default ({
                 includeEditorSelection: false,
               });
             }
+            break;
+          case Bot.hybrid:
+            {
+              const updatedConversation = {
+                ...currentConversation,
+                verbosity: Verbosity.normal,
+              };
+              vscode.postMessage({
+                type: "proofreader",
+                value: questionInputRef.current.value,
+                conversation: updatedConversation,
+                includeEditorSelection: false,
+              });
+            }
+            vscode.postMessage({
+              type: "addFreeTextQuestion",
+              value: questionInputRef.current.value,
+              conversation: currentConversation,
+              includeEditorSelection: useEditorSelection,
+            });
             break;
           case Bot.basic:
           default:
