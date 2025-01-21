@@ -41,7 +41,8 @@ export enum Model {
   llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
   //2 2
   llama3_405 = "meta-llama/llama-3.1-405b-instruct",
-  deepseek3 = "deepseek/deepseek-chat",
+  deepseek_v3 = "deepseek/deepseek-chat",
+  deepseek_r1 = "deepseek/deepseek-r1",
   free = "mistralai/mistral-7b-instruct:free",
 
   // 0.25_0.75

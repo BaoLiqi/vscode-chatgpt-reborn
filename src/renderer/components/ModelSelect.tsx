@@ -9,7 +9,8 @@ const models = [
   // { name: "gem-p", model: Model.gemini_pro },
   // { name: "gem-pe", model: Model.gemini_pro_e },
   // { name: "gem-e", model: Model.gemini_e },
-  { name: "deepseek3", model: Model.deepseek3 },
+  { name: "deepseekR1", model: Model.deepseek_r1 },
+  { name: "deepseekV3", model: Model.deepseek_v3 },
   { name: "llama3", model: Model.llama3_70b },
   { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
@@ -73,8 +74,10 @@ export default function ModelSelect({
         return "sonnet";
       case Model.llama3_70b:
         return "llama3.3";
-      case Model.deepseek3:
+      case Model.deepseek_v3:
         return "ds3";
+      case Model.deepseek_r1:
+        return "dr1";
       default:
         return model;
     }
