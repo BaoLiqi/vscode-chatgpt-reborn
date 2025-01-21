@@ -45,13 +45,10 @@ export enum Model {
   deepseek_r1 = "deepseek/deepseek-r1",
   free = "mistralai/mistral-7b-instruct:free",
 
-  // 0.25_0.75
-  gemini_flash = "google/gemini-flash-1.5",
-  // 2.5 7.5
-  gemini_pro = "google/gemini-pro-1.5",
-  // 0 
-  gemini_pro_e = "google/learnlm-1.5-pro-experimental:free",
-  gemini_e = "google/gemini-exp-1121:free",
+  gemini_flash_thinkig = "google/gemini-2.0-flash-thinking-exp:free",
+  gemini_flash = "google/gemini-2.0-flash-exp:free",
+  gemini_e = "google/gemini-exp-1206:free",
+
   qwen2 = "qwen/qwen-2-72b-instruct",
   sonnet = "anthropic/claude-3.5-sonnet",
   none = "none"

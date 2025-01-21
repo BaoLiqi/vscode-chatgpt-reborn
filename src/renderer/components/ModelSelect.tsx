@@ -8,7 +8,9 @@ const models = [
   // { name: "free", model: Model.free },
   // { name: "gem-p", model: Model.gemini_pro },
   // { name: "gem-pe", model: Model.gemini_pro_e },
-  // { name: "gem-e", model: Model.gemini_e },
+  { name: "gem-e", model: Model.gemini_e },
+  { name: "gem-flash", model: Model.gemini_flash },
+  { name: "gem-flash-think", model: Model.gemini_flash_thinkig },
   { name: "deepseekR1", model: Model.deepseek_r1 },
   { name: "deepseekV3", model: Model.deepseek_v3 },
   { name: "llama3", model: Model.llama3_70b },
@@ -78,6 +80,12 @@ export default function ModelSelect({
         return "ds3";
       case Model.deepseek_r1:
         return "dr1";
+      case Model.gemini_e:
+        return "gem";
+      case Model.gemini_flash:
+        return "flash";
+      case Model.gemini_flash_thinkig:
+        return "flash_think";
       default:
         return model;
     }
