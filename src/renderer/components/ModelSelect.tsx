@@ -10,14 +10,17 @@ const models = [
   // { name: "gem-pe", model: Model.gemini_pro_e },
   { name: "gem-e", model: Model.gemini_e },
   { name: "gem-flash", model: Model.gemini_flash },
-  { name: "gem-flash-think", model: Model.gemini_flash_thinkig },
+  { name: "gem-flash-think", model: Model.gemini_flash_think },
   { name: "deepseekR1", model: Model.deepseek_r1 },
+  { name: "deepseekR1-free", model: Model.deepseek_r1_free },
+  { name: "deepseekR1-nitro", model: Model.deepseek_r1_nitro },
   { name: "deepseekV3", model: Model.deepseek_v3 },
-  { name: "llama3", model: Model.llama3_70b },
-  { name: "gpt-4om", model: Model.gpt_4o_m },
+  { name: "distill-L70", model: Model.distill_llama_70b },
+  // { name: "llama3", model: Model.llama3_70b },
+  // { name: "gpt-4om", model: Model.gpt_4o_m },
   { name: "gpt-4o", model: Model.gpt_4o },
-  { name: "gpt-o1m", model: Model.gpt_o1_m },
-  { name: "gpt-o1", model: Model.gpt_o1 },
+  // { name: "gpt-o1m", model: Model.gpt_o1_m },
+  // { name: "gpt-o1", model: Model.gpt_o1 },
   // { name: "sonnet", model: Model.sonnet },
 ];
 
@@ -84,7 +87,7 @@ export default function ModelSelect({
         return "gem";
       case Model.gemini_flash:
         return "flash";
-      case Model.gemini_flash_thinkig:
+      case Model.gemini_flash_think:
         return "flash_think";
       default:
         return model;

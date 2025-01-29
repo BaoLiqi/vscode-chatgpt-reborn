@@ -33,7 +33,7 @@ export enum Model {
   // 0.15 0.6
   gpt_4o_m = "openai/gpt-4o-mini",
   // 2.5 10
-  gpt_4o = "openai/gpt-4o-2024-11-20",
+  gpt_4o = "openai/chatgpt-4o-latest",
   gpt_4_turbo = "openai/gpt-4-turbo",
   gpt_35_turbo = "gpt-3.5-turbo",
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
@@ -43,9 +43,12 @@ export enum Model {
   llama3_405 = "meta-llama/llama-3.1-405b-instruct",
   deepseek_v3 = "deepseek/deepseek-chat",
   deepseek_r1 = "deepseek/deepseek-r1",
+  deepseek_r1_free = "deepseek/deepseek-r1:free",
+  deepseek_r1_nitro = "deepseek/deepseek-r1:nitro",
+  distill_llama_70b = "deepseek/deepseek-r1-distill-llama-70b",
   free = "mistralai/mistral-7b-instruct:free",
 
-  gemini_flash_thinkig = "google/gemini-2.0-flash-thinking-exp:free",
+  gemini_flash_think = "google/gemini-2.0-flash-thinking-exp:free",
   gemini_flash = "google/gemini-2.0-flash-exp:free",
   gemini_e = "google/gemini-exp-1206:free",
 
