@@ -8,7 +8,7 @@ import {
   setInProgress,
   updateUserInput,
 } from "../store/conversation";
-import { Bot, Conversation, MODEL_TOKEN_LIMITS, Verbosity } from "../types";
+import { Bot, Conversation, Verbosity } from "../types";
 import BotSelect from "./BotSelect";
 import Icon from "./Icon";
 import ModelSelect from "./ModelSelect";
@@ -192,23 +192,6 @@ export default ({
         ).dataset.replicatedValue = "";
       }
     }
-  };
-
-  const isTokenQuantityExceeded = () => {
-    if (!currentConversation) {
-      return true;
-    }
-    if (!currentConversation.model) {
-      return true;
-    }
-
-    let current_model: string = currentConversation?.model;
-    if (!(current_model in MODEL_TOKEN_LIMITS)) {
-      return false;
-    }
-    return (
-      parseInt(tokenCountLabel) > MODEL_TOKEN_LIMITS[current_model].context
-    );
   };
 
   return (
@@ -433,13 +416,7 @@ export default ({
                 tokenCountAnimation
                   ? "duration-200 bg-blue-300 bg-opacity-20"
                   : "duration-500"
-              }
-                ${
-                  isTokenQuantityExceeded()
-                    ? "duration-200 bg-red-700 bg-opacity-20"
-                    : ""
-                }
-              `}
+              }`}
               ref={tokenCountRef}
               tabIndex={0}
               // on hover showTokenBreakdown

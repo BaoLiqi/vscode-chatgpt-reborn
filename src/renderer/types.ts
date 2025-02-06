@@ -34,9 +34,12 @@ export enum Model {
   gpt_4o_m = "openai/gpt-4o-mini",
   // 2.5 10
   gpt_4o = "openai/chatgpt-4o-latest",
-  gpt_4_turbo = "openai/gpt-4-turbo",
+
+
   gpt_35_turbo = "gpt-3.5-turbo",
+
   mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
+
   llama3_70b = "meta-llama/llama-3.3-70b-instruct",
   llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
   //2 2
@@ -50,38 +53,12 @@ export enum Model {
 
   gemini_flash_think = "google/gemini-2.0-flash-thinking-exp:free",
   gemini_flash = "google/gemini-2.0-flash-exp:free",
-  gemini_e = "google/gemini-exp-1206:free",
+  gemini_e = "google/gemini-2.0-pro-exp-02-05:free",
 
   qwen2 = "qwen/qwen-2-72b-instruct",
   sonnet = "anthropic/claude-3.5-sonnet",
   none = "none"
 }
-
-// source: https://openai.com/pricing
-export const MODEL_COSTS = {
-  [Model.gpt_4_turbo]: {
-    prompt: 0.01,
-    complete: 0.03,
-  },
-} as {
-  [model: string]: {
-    prompt: number;
-    complete: number;
-  };
-};
-
-// source: https://platform.openai.com/docs/models
-export const MODEL_TOKEN_LIMITS = {
-  [Model.gpt_4_turbo]: {
-    context: 128000,
-    max: 4096,
-  },
-} as {
-  [model: string]: {
-    context: number;
-    max?: number;
-  };
-};
 
 interface OpenAIMessage {
   role: Role;
