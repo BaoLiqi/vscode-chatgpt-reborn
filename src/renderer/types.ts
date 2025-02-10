@@ -26,36 +26,24 @@ export enum Role {
 }
 
 export enum Model {
-  // 3 12
-  gpt_o1_m = "openai/o1-mini",
-  // 15 60
-  gpt_o1 = "openai/o1",
-  // 0.15 0.6
-  gpt_4o_m = "openai/gpt-4o-mini",
-  // 2.5 10
-  gpt_4o = "openai/chatgpt-4o-latest",
-
 
   gpt_35_turbo = "gpt-3.5-turbo",
 
-  mistral8x22b_instruct = "mistralai/mixtral-8x22b-instruct",
+  // 3 12
+  gpt_o1_m = "openai/o1-mini",
+  // 0.15 0.6
+  gpt_4o_m = "openai/gpt-4o-mini",
 
-  llama3_70b = "meta-llama/llama-3.3-70b-instruct",
-  llama3_70b_nitro = "meta-llama/llama-3-70b-instruct:nitro",
-  //2 2
-  llama3_405 = "meta-llama/llama-3.1-405b-instruct",
   deepseek_v3 = "deepseek/deepseek-chat",
   deepseek_r1 = "deepseek/deepseek-r1",
-  deepseek_r1_free = "deepseek/deepseek-r1:free",
-  deepseek_r1_nitro = "deepseek/deepseek-r1:nitro",
-  distill_llama_70b = "deepseek/deepseek-r1-distill-llama-70b",
+
   free = "mistralai/mistral-7b-instruct:free",
 
-  gemini_flash_think = "google/gemini-2.0-flash-thinking-exp:free",
-  gemini_flash = "google/gemini-2.0-flash-exp:free",
-  gemini_e = "google/gemini-2.0-pro-exp-02-05:free",
+  gemini_2_flash_001 = "google/gemini-2.0-flash-001",
+  gemini_2_flash_thinking_exp = "google/gemini-2.0-flash-thinking-exp:free",
+  gemini_2_flash_exp = "google/gemini-2.0-flash-exp:free",
+  gemini_2_pro_exp = "google/gemini-2.0-pro-exp-02-05:free",
 
-  qwen2 = "qwen/qwen-2-72b-instruct",
   sonnet = "anthropic/claude-3.5-sonnet",
   none = "none"
 }

@@ -5,24 +5,17 @@ import { Conversation, Model } from "../types";
 import Icon from "./Icon";
 
 const models = [
-  // { name: "free", model: Model.free },
-  // { name: "gem-p", model: Model.gemini_pro },
-  // { name: "gem-pe", model: Model.gemini_pro_e },
-  { name: "gem-e", model: Model.gemini_e },
-  { name: "gem-flash", model: Model.gemini_flash },
-  { name: "gem-flash-think", model: Model.gemini_flash_think },
-  { name: "deepseekR1", model: Model.deepseek_r1 },
-  // { name: "deepseekR1-free", model: Model.deepseek_r1_free },
-  // { name: "deepseekR1-nitro", model: Model.deepseek_r1_nitro },
-  { name: "deepseekV3", model: Model.deepseek_v3 },
-  { name: "distill-L70", model: Model.distill_llama_70b },
-  // { name: "llama3", model: Model.llama3_70b },
-  // { name: "gpt-4om", model: Model.gpt_4o_m },
-  // { name: "gpt-4o", model: Model.gpt_4o },
-  { name: "gpt-o1m", model: Model.gpt_o1_m },
-  // { name: "gpt-o1", model: Model.gpt_o1 },
-  // { name: "sonnet", model: Model.sonnet },
+  { name: "e-g2p", model: Model.gemini_2_pro_exp },
+  { name: "e-g2f", model: Model.gemini_2_flash_exp },
+  { name: "e-g2f-thinking", model: Model.gemini_2_flash_thinking_exp },
+  { name: "g2f-001", model: Model.gemini_2_flash_001 },
+  { name: "dsR1", model: Model.deepseek_r1 },
+  { name: "dsV3", model: Model.deepseek_v3 },
+  { name: "o1mini", model: Model.gpt_o1_m },
 ];
+
+// Create a mapping from model to name
+const modelToNameMap = new Map(models.map(({ name, model }) => [model, name]));
 
 export default function ModelSelect({
   currentConversation,
@@ -65,33 +58,8 @@ export default function ModelSelect({
     setShowModels(false);
   };
 
-  const friendlyName = (model: string): string => {
-    switch (model) {
-      case Model.gpt_o1_m:
-        return "o1-m";
-      case Model.gpt_o1:
-        return "o1";
-      case Model.gpt_4o:
-        return "4o";
-      case Model.gpt_4o_m:
-        return "gpt-4m";
-      case Model.sonnet:
-        return "sonnet";
-      case Model.llama3_70b:
-        return "llama3.3";
-      case Model.deepseek_v3:
-        return "ds3";
-      case Model.deepseek_r1:
-        return "dr1";
-      case Model.gemini_e:
-        return "gem";
-      case Model.gemini_flash:
-        return "flash";
-      case Model.gemini_flash_think:
-        return "flash_think";
-      default:
-        return model;
-    }
+  const friendlyName = (model: Model | undefined | null): string => {
+    return modelToNameMap.get(model ?? Model.none) ?? (model || "None");
   };
 
   return (
