@@ -11,7 +11,7 @@ const models = [
   { name: "g2f-001", model: Model.gemini_2_flash_001 },
   { name: "dsR1", model: Model.deepseek_r1 },
   { name: "dsV3", model: Model.deepseek_v3 },
-  { name: "o1mini", model: Model.gpt_o1_m },
+  { name: "o3mini", model: Model.gpt_o3_m },
 ];
 
 // Create a mapping from model to name

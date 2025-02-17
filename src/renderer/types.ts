@@ -31,6 +31,8 @@ export enum Model {
 
   // 3 12
   gpt_o1_m = "openai/o1-mini",
+
+  gpt_o3_m = "openai/o3-mini-high",
   // 0.15 0.6
   gpt_4o_m = "openai/gpt-4o-mini",
 
