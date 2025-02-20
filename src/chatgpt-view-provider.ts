@@ -864,53 +864,43 @@ The assistant's response would be:
 		}
 	}
 
-	private handleError(error: any, options: ApiRequestOptions) {
-		let message;
-		let apiMessage = error?.response?.data?.error?.message || error?.tostring?.() || error?.message || error?.name;
-
+	private handleError(error: any, options: ApiRequestOptions): string {
 		console.error("api-request-failed info:", JSON.stringify(error, null, 2));
 		console.error("api-request-failed error obj:", error);
-		const status = JSON.parse(JSON.stringify(error)).status ?? error?.status ?? error?.response?.status ?? error?.response?.data?.error?.status;
 
-		switch (status) {
-			case 400:
-				message = `400 Bad Request\n\nYour model: '${this.model}' may be incompatible or one of your parameters is unknown. Reset your settings to default.`;
-				break;
-			case 401:
-				message = '401 Unauthorized\n\nMake sure your API key is correct, you can reset it by going to "More Actions" > "Reset API Key". Potential reasons: \n- 1. Incorrect API key provided.\n- 2. Incorrect Organization provided. \n See https://platform.openai.com/docs/guides/error-codes for more details.';
-				break;
-			case 403:
-				message = '403 Forbidden\n\nYour token has expired. Please try authenticating again.';
-				break;
-			case 404:
-				message = `404 Not Found\n\n`;
+		const responseData = error?.response?.data;
+		const status = error?.status ?? error?.response?.status ?? responseData?.error?.status;
 
-				if (this.api.apiConfig.baseURL?.includes("openai.1rmb.tk") && this.api.apiConfig.baseURL !== "https://openai.1rmb.tk/v1") {
-					message += "It looks like you are using the openai.1rmb.tk proxy server, but the path might be wrong.\nThe recommended path is https://openai.1rmb.tk/v1";
-				} else {
-					message += `If you've changed the API baseUrlPath, double-check that it is correct.\nYour model: '${this.model}' may be incompatible or you may have exhausted your ChatGPT subscription allowance.`;
-				}
-				break;
-			case 429:
-				message = "429 Too Many Requests\n\nToo many requests try again later. Potential reasons: \n 1. You exceeded your current quota, please check your plan and billing details\n 2. You are sending requests too quickly \n 3. The engine is currently overloaded, please try again later. \n See https://platform.openai.com/docs/guides/error-codes for more details.";
-				break;
-			case 500:
-				message = "500 Internal Server Error\n\nThe server had an error while processing your request, please try again.\nSee https://platform.openai.com/docs/guides/error-codes for more details.";
-				break;
-			default:
-				if (apiMessage) {
-					message = `${status ? status + '\n\n' : ''}${apiMessage}`;
-				} else {
-					message = `${status}\n\nAn unknown error occurred. Please check your internet connection, clear the conversation, and try again.\n\n${apiMessage}`;
-				}
+		// Prioritize extracting detailed error information from the response.
+		let apiMessage = responseData?.error?.message || responseData?.error?.details || error?.message || error?.toString?.();
+
+		//Try to stringify the response data to get more info
+		if (!apiMessage && responseData) {
+			try {
+				apiMessage = JSON.stringify(responseData);
+			} catch (e) {
+				//don nothing
+			}
 		}
 
-		this.sendMessage({
-			type: 'addError',
-			id: uuidv4(),
-			conversationId: options.conversation.id,
-			value: message,
-		});
+		// Fallback message if no API message is found.
+		const defaultUnknownErrorMessage = `An unknown error occurred.  Check your connection, or try again later.`;
+
+
+		if (!status) {
+			return apiMessage || defaultUnknownErrorMessage;
+		}
+
+		let message = `${status}: `;
+		//Simplify the message, only display the apiMessage
+		if (apiMessage) {
+			message += apiMessage;
+		}
+		else {
+			message += defaultUnknownErrorMessage;
+		}
+
+		return message;
 	}
 
 	public async dontSendApiRequest(prompt: string, options: ApiRequestOptions) {
