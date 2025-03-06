@@ -46,7 +46,10 @@ export enum Model {
   gemini_2_flash_exp = "google/gemini-2.0-flash-exp:free",
   gemini_2_pro_exp = "google/gemini-2.0-pro-exp-02-05:free",
 
-  sonnet = "anthropic/claude-3.5-sonnet",
+  qwq_free = "qwen/qwq-32b:free",
+  qwq = "qwen/qwq-32b",
+
+  sonnet = "anthropic/claude-3.7-sonnet",
   none = "none"
 }
 
