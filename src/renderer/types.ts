@@ -47,6 +47,7 @@ export enum Model {
   gemini_2_flash_exp = "google/gemini-2.0-flash-exp:free",
   gemini_2_pro_exp = "google/gemini-2.0-pro-exp-02-05:free",
   gemini_25_pro_exp = "google/gemini-2.5-pro-exp-03-25:free",
+  gemini_25_pro_preview = "google/gemini-2.5-pro-preview-03-25",
   qwq_free = "qwen/qwq-32b:free",
   qwq = "qwen/qwq-32b",
 
