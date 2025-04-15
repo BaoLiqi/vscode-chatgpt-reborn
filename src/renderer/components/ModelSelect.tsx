@@ -5,18 +5,21 @@ import { Conversation, Model } from "../types";
 import Icon from "./Icon";
 
 const models = [
-  { name: "e-g2p", model: Model.gemini_2_pro_exp },
+  // { name: "e-g2p", model: Model.gemini_2_pro_exp },
   { name: "e-g25p", model: Model.gemini_25_pro_exp },
-  { name: "e-g25pre", model: Model.gemini_25_pro_preview },
+  { name: "g25paid", model: Model.gemini_25_pro_preview },
   // { name: "e-g2f", model: Model.gemini_2_flash_exp },
   // { name: "e-g2f-thinking", model: Model.gemini_2_flash_thinking_exp },
-  { name: "g2f-001", model: Model.gemini_2_flash_001 },
+  // { name: "g2f-001", model: Model.gemini_2_flash_001 },
   // { name: "dsR1", model: Model.deepseek_r1 },
+  { name: "41nano", model: Model.gpt_41_nano },
+  { name: "41mini", model: Model.gpt_41_mini },
+  { name: "41", model: Model.gpt_41 },
   { name: "dsV3", model: Model.deepseek_v3 },
   { name: "dsV3f", model: Model.deepseek_v3f },
   // { name: "qwq_free", model: Model.qwq_free },
   // { name: "qwq", model: Model.qwq },
-  { name: "o3mini", model: Model.gpt_o3_m },
+  // { name: "o3mini", model: Model.gpt_o3_m },
 ];
 
 // Create a mapping from model to name

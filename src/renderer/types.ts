@@ -36,17 +36,27 @@ export enum Model {
   // 0.15 0.6
   gpt_4o_m = "openai/gpt-4o-mini",
 
+  // 0.1 0.4
+  gpt_41_nano = "openai/gpt-4.1-nano",
+  // 0.4 1.6
+  gpt_41_mini = "openai/gpt-4.1-mini",
+  // 2.0 8.0
+  gpt_41 = "openai/gpt-4.1",
+
+  // 0.27 1.1
   deepseek_v3 = "deepseek/deepseek-chat-v3-0324",
   deepseek_v3f = "deepseek/deepseek-chat-v3-0324:free",
   deepseek_r1 = "deepseek/deepseek-r1",
 
   free = "mistralai/mistral-7b-instruct:free",
 
+  // 0.1 0.4
   gemini_2_flash_001 = "google/gemini-2.0-flash-001",
   gemini_2_flash_thinking_exp = "google/gemini-2.0-flash-thinking-exp:free",
   gemini_2_flash_exp = "google/gemini-2.0-flash-exp:free",
   gemini_2_pro_exp = "google/gemini-2.0-pro-exp-02-05:free",
   gemini_25_pro_exp = "google/gemini-2.5-pro-exp-03-25:free",
+  // 1.25 10.0
   gemini_25_pro_preview = "google/gemini-2.5-pro-preview-03-25",
   qwq_free = "qwen/qwq-32b:free",
   qwq = "qwen/qwq-32b",
