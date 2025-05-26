@@ -51,17 +51,18 @@ export enum Model {
   free = "mistralai/mistral-7b-instruct:free",
 
   // 0.1 0.4
-  gemini_2_flash_001 = "google/gemini-2.0-flash-001",
-  gemini_2_flash_thinking_exp = "google/gemini-2.0-flash-thinking-exp:free",
-  gemini_2_flash_exp = "google/gemini-2.0-flash-exp:free",
-  gemini_2_pro_exp = "google/gemini-2.0-pro-exp-02-05:free",
+  // gemini_2_flash_001 = "google/gemini-2.0-flash-001",
+  // gemini_2_flash_thinking_exp = "google/gemini-2.0-flash-thinking-exp:free",
+  // gemini_2_flash_exp = "google/gemini-2.0-flash-exp:free",
+  // gemini_2_pro_exp = "google/gemini-2.0-pro-exp-02-05:free",
+  gemini_25_flash_prevview_0520 = "google/gemini-2.5-flash-preview-05-20",
   gemini_25_pro_exp = "google/gemini-2.5-pro-exp-03-25:free",
   // 1.25 10.0
-  gemini_25_pro_preview = "google/gemini-2.5-pro-preview-03-25",
-  qwq_free = "qwen/qwq-32b:free",
-  qwq = "qwen/qwq-32b",
+  gemini_25_pro_preview = "google/gemini-2.5-pro-preview",
+  // qwq_free = "qwen/qwq-32b:free",
+  // qwq = "qwen/qwq-32b",
 
-  sonnet = "anthropic/claude-3.7-sonnet",
+  sonnet = "anthropic/claude-sonnet-4",
   none = "none"
 }
 
