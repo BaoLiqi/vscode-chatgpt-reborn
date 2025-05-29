@@ -17,6 +17,7 @@ const models = [
   { name: "41nano", model: Model.gpt_41_nano },
   { name: "41mini", model: Model.gpt_41_mini },
   { name: "41", model: Model.gpt_41 },
+  { name: "dsR1", model: Model.deepseek_r1 },
   // { name: "o4-mini", model: Model.gpt_o4_m },
   // { name: "dsV3", model: Model.deepseek_v3 },
   // { name: "dsV3f", model: Model.deepseek_v3f },

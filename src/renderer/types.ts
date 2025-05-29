@@ -29,12 +29,12 @@ export enum Model {
 
   gpt_35_turbo = "gpt-3.5-turbo",
 
-  // 3 12
-  gpt_o1_m = "openai/o1-mini",
+  // // 3 12
+  // gpt_o1_m = "openai/o1-mini",
 
-  gpt_o4_m = "openai/o4-mini-high",
-  // 0.15 0.6
-  gpt_4o_m = "openai/gpt-4o-mini",
+  // gpt_o4_m = "openai/o4-mini-high",
+  // // 0.15 0.6
+  // gpt_4o_m = "openai/gpt-4o-mini",
 
   // 0.1 0.4
   gpt_41_nano = "openai/gpt-4.1-nano",
@@ -44,9 +44,10 @@ export enum Model {
   gpt_41 = "openai/gpt-4.1",
 
   // 0.27 1.1
-  deepseek_v3 = "deepseek/deepseek-chat-v3-0324",
-  deepseek_v3f = "deepseek/deepseek-chat-v3-0324:free",
-  deepseek_r1 = "deepseek/deepseek-r1",
+  // deepseek_v3 = "deepseek/deepseek-chat-v3-0324",
+  // deepseek_v3f = "deepseek/deepseek-chat-v3-0324:free",
+  // 0.5 2.18
+  deepseek_r1 = "deepseek/deepseek-r1-0528",
 
   free = "mistralai/mistral-7b-instruct:free",
 
