@@ -8,8 +8,8 @@ const models = [
   // { name: "e-g2p", model: Model.gemini_2_pro_exp },
   // { name: "e-g25p", model: Model.gemini_25_pro_exp },
   // 1.25 10
-  { name: "g25pro", model: Model.gemini_25_pro_preview },
-  { name: "g25flash", model: Model.gemini_25_flash_prevview_0520 },
+  { name: "g25pro", model: Model.gemini_25_pro },
+  { name: "g25flash", model: Model.gemini_25_flash },
   // { name: "e-g2f", model: Model.gemini_2_flash_exp },
   // { name: "e-g2f-thinking", model: Model.gemini_2_flash_thinking_exp },
   // { name: "g2f-001", model: Model.gemini_2_flash_001 },
