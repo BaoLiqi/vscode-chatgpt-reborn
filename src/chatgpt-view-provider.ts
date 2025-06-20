@@ -286,12 +286,26 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 						messageId: data.messageId ?? null,
 					} as ApiRequestOptions;
 
+					const temp_prompt = "I am currently learning English. I can understand English but my speaking/writing is very poor. So, no matter what language I use to input, you should always reply in English. Also, for questions asked in Chinese, you can guide and suggest 'this can be expressed in English like this.' For inputs in English, please pay attention to correcting mistakes or introducing more appropriate ways of expressing things.";
+
+					if (apiRequestOptions.conversation?.messages.length === 0) {
+						apiRequestOptions.conversation?.messages.push({
+							id: uuidv4(),
+							content: temp_prompt,
+							rawContent: temp_prompt,
+							role: Role.user,
+							createdAt: Date.now(),
+						});
+					}
+
 					// if includeEditorSelection is true, add the code snippet to the question
 					if (data?.includeEditorSelection) {
 						const selection = this.getActiveEditorSelection();
 						apiRequestOptions.code = selection?.content ?? "";
 						apiRequestOptions.language = selection?.language ?? "";
 					}
+
+
 
 					this.sendApiRequest(data.value, apiRequestOptions);
 
