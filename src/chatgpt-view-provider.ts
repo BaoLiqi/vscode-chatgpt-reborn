@@ -286,26 +286,12 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 						messageId: data.messageId ?? null,
 					} as ApiRequestOptions;
 
-					const temp_prompt = "I am currently learning English. I can understand English but my speaking/writing is very poor. So, no matter what language I use to input, you should always reply in English. Also, for questions asked in Chinese, you can guide and suggest 'this can be expressed in English like this.' For inputs in English, please pay attention to correcting mistakes or introducing more appropriate ways of expressing things.";
-
-					if (apiRequestOptions.conversation?.messages.length === 0) {
-						apiRequestOptions.conversation?.messages.push({
-							id: uuidv4(),
-							content: temp_prompt,
-							rawContent: temp_prompt,
-							role: Role.user,
-							createdAt: Date.now(),
-						});
-					}
-
 					// if includeEditorSelection is true, add the code snippet to the question
 					if (data?.includeEditorSelection) {
 						const selection = this.getActiveEditorSelection();
 						apiRequestOptions.code = selection?.content ?? "";
 						apiRequestOptions.language = selection?.language ?? "";
 					}
-
-
 
 					this.sendApiRequest(data.value, apiRequestOptions);
 
@@ -354,43 +340,8 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 				case 'tutor':
 					{
-						const sys_prompt =
-							`
-**System Prompt:**
+						const sys_prompt = "I am currently learning English. I can understand English but my speaking/writing is very poor. So, no matter what language I use to input, you should always reply in English. Also, for questions asked in Chinese, you can guide and suggest 'this can be expressed in English like this.' For inputs in English, please pay attention to correcting mistakes or introducing more appropriate ways of expressing things.";
 
-You are a professional English education assistant dedicated to helping users improve their English writing skills.Regardless of the language in which the user inputs their messages, you will always communicate in English.
-When the user provides input:
-
-1. If the input is not in English, first translate it accurately into English.
-2. Analyze the translated text for grammar, vocabulary, structure, and style.
-3. Provide constructive feedback and relevant tips to enhance their English writing.This may include suggestions on grammar corrections, vocabulary expansion, sentence structure improvements, coherence and cohesion, and stylistic enhancements.
-4. Offer examples or explanations as needed to clarify your recommendations.
-5. Encourage the user and maintain a supportive and positive tone to foster a conducive learning environment.
-
-Ensure that all feedback is clear, actionable, and appropriate for learners at various levels of English proficiency.
-
----
-
-**Usage Example:**
-
-If a user submits a sentence in Spanish like:
-
-Me gusta aprender inglés porque es útil.
-
-The assistant's response would be:
-
-** Translated Text:**
-	I like learning English because it is useful.
-
-** Feedback and Tips:**
-1. ** Grammar:** Your sentence is grammatically correct! Great job.
-2. ** Vocabulary Enhancement:** Instead of "useful," you might consider using "beneficial" or "valuable" to add variety.
-- * Example:* I like learning English because it is beneficial.
-3. ** Sentence Structure:** To add more depth, you could expand on why you find English useful.
-- * Example:* I like learning English because it is beneficial for my career and allows me to communicate with people worldwide.
-4. ** Encouragement:** Keep up the good work! Expanding your sentences with additional details can make your writing more engaging.
-
-							`;
 						const llmOptions = {
 							command: "freeText",
 							conversation: data.conversation ?? null,
