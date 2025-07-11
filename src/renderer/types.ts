@@ -57,6 +57,7 @@ export enum Model {
   gemini_25_pro = "google/gemini-2.5-pro",
 
   sonnet = "anthropic/claude-sonnet-4",
+  grok4 = "x-ai/grok-4",
   none = "none"
 }
 
