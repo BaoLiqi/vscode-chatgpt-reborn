@@ -29,13 +29,6 @@ export enum Model {
 
   gpt_35_turbo = "gpt-3.5-turbo",
 
-  // // 3 12
-  // gpt_o1_m = "openai/o1-mini",
-
-  // gpt_o4_m = "openai/o4-mini-high",
-  // // 0.15 0.6
-  // gpt_4o_m = "openai/gpt-4o-mini",
-
   // 0.1 0.4
   gpt_41_nano = "openai/gpt-4.1-nano",
   // 0.4 1.6
@@ -43,18 +36,18 @@ export enum Model {
   // 2.0 8.0
   gpt_41 = "openai/gpt-4.1",
 
-  // 0.27 1.1
-  // deepseek_v3 = "deepseek/deepseek-chat-v3-0324",
-  // deepseek_v3f = "deepseek/deepseek-chat-v3-0324:free",
   // 0.5 2.18
   deepseek_r1 = "deepseek/deepseek-r1-0528",
-
-  free = "mistralai/mistral-7b-instruct:free",
-
+  // 0.3 1.2
+  qwen = "qwen/qwen3-coder",
   // 0.3 2.5
   gemini_25_flash = "google/gemini-2.5-flash",
   // 1.25 10.0
   gemini_25_pro = "google/gemini-2.5-pro",
+
+
+  // 0.14 2.49
+  kimi = "moonshotai/kimi-k2",
 
   sonnet = "anthropic/claude-sonnet-4",
   grok4 = "x-ai/grok-4",

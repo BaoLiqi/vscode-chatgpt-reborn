@@ -5,26 +5,17 @@ import { Conversation, Model } from "../types";
 import Icon from "./Icon";
 
 const models = [
-  // { name: "e-g2p", model: Model.gemini_2_pro_exp },
-  // { name: "e-g25p", model: Model.gemini_25_pro_exp },
-  // 1.25 10
+  { name: "grok4", model: Model.grok4 },
   { name: "g25pro", model: Model.gemini_25_pro },
   { name: "g25flash", model: Model.gemini_25_flash },
-  // { name: "e-g2f", model: Model.gemini_2_flash_exp },
-  // { name: "e-g2f-thinking", model: Model.gemini_2_flash_thinking_exp },
-  // { name: "g2f-001", model: Model.gemini_2_flash_001 },
-  // { name: "dsR1", model: Model.deepseek_r1 },
+
   { name: "41nano", model: Model.gpt_41_nano },
-  { name: "41mini", model: Model.gpt_41_mini },
+  // { name: "41mini", model: Model.gpt_41_mini },
   { name: "41", model: Model.gpt_41 },
+
+  { name: "qwen", model: Model.qwen },
+  { name: "kimiK2", model: Model.kimi },
   { name: "dsR1", model: Model.deepseek_r1 },
-  { name: "grok4", model: Model.grok4 },
-  // { name: "o4-mini", model: Model.gpt_o4_m },
-  // { name: "dsV3", model: Model.deepseek_v3 },
-  // { name: "dsV3f", model: Model.deepseek_v3f },
-  // { name: "qwq_free", model: Model.qwq_free },
-  // { name: "qwq", model: Model.qwq },
-  // { name: "o3mini", model: Model.gpt_o3_m },
 ];
 
 // Create a mapping from model to name
