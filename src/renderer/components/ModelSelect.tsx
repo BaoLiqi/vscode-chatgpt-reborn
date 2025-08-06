@@ -9,12 +9,12 @@ const models = [
   { name: "g25pro", model: Model.gemini_25_pro },
   { name: "g25flash", model: Model.gemini_25_flash },
 
-  { name: "41nano", model: Model.gpt_41_nano },
+  { name: "gpt-oss", model: Model.gpt_oss_120b },
   // { name: "41mini", model: Model.gpt_41_mini },
-  { name: "41", model: Model.gpt_41 },
+  { name: "gpt4.1", model: Model.gpt_41 },
 
   { name: "qwen", model: Model.qwen },
-  { name: "kimiK2", model: Model.kimi },
+  // { name: "kimiK2", model: Model.kimi },
   { name: "dsR1", model: Model.deepseek_r1 },
 ];
 

@@ -31,6 +31,10 @@ export enum Model {
 
   // 0.1 0.4
   gpt_41_nano = "openai/gpt-4.1-nano",
+
+  // 0.1 0.5
+  gpt_oss_120b = "openai/gpt-oss-120b",
+
   // 0.4 1.6
   gpt_41_mini = "openai/gpt-4.1-mini",
   // 2.0 8.0
@@ -45,11 +49,11 @@ export enum Model {
   // 1.25 10.0
   gemini_25_pro = "google/gemini-2.5-pro",
 
-
   // 0.14 2.49
-  kimi = "moonshotai/kimi-k2",
+  // kimi = "moonshotai/kimi-k2",
 
   sonnet = "anthropic/claude-sonnet-4",
+
   grok4 = "x-ai/grok-4",
   none = "none"
 }
