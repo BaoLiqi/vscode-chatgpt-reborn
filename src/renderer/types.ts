@@ -29,16 +29,18 @@ export enum Model {
 
   gpt_35_turbo = "gpt-3.5-turbo",
 
-  // 0.1 0.4
-  gpt_41_nano = "openai/gpt-4.1-nano",
+
 
   // 0.1 0.5
   gpt_oss_120b = "openai/gpt-oss-120b",
 
-  // 0.4 1.6
-  gpt_41_mini = "openai/gpt-4.1-mini",
+  // 0.05 0.4
+  gpt_5_nano = "openai/gpt-5-nano",
+
+  // 0.25 2
+  gpt_5_mini = "openai/gpt-5-mini",
   // 2.0 8.0
-  gpt_41 = "openai/gpt-4.1",
+  gpt_5_chat = "openai/gpt-5-chat",
 
   // 0.5 2.18
   deepseek_r1 = "deepseek/deepseek-r1-0528",

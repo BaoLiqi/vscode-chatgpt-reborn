@@ -7,11 +7,13 @@ import Icon from "./Icon";
 const models = [
   { name: "grok4", model: Model.grok4 },
   { name: "g25pro", model: Model.gemini_25_pro },
-  { name: "g25flash", model: Model.gemini_25_flash },
+  // { name: "g25flash", model: Model.gemini_25_flash },
 
-  { name: "gpt-oss", model: Model.gpt_oss_120b },
+  // { name: "gpt-oss", model: Model.gpt_oss_120b },
   // { name: "41mini", model: Model.gpt_41_mini },
-  { name: "gpt4.1", model: Model.gpt_41 },
+  { name: "gpt5-nano", model: Model.gpt_5_nano },
+  { name: "gpt5-mini", model: Model.gpt_5_mini },
+  { name: "gpt5-chat", model: Model.gpt_5_chat },
 
   { name: "qwen", model: Model.qwen },
   // { name: "kimiK2", model: Model.kimi },
