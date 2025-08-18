@@ -46,6 +46,10 @@ export enum Model {
   deepseek_r1 = "deepseek/deepseek-r1-0528",
   // 0.3 1.2
   qwen = "qwen/qwen3-coder",
+
+  // 0.1 0.4
+  gemini_25_lite = "google/gemini-2.5-flash-lite",
+
   // 0.3 2.5
   gemini_25_flash = "google/gemini-2.5-flash",
   // 1.25 10.0

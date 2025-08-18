@@ -7,7 +7,7 @@ import Icon from "./Icon";
 const models = [
   { name: "grok4", model: Model.grok4 },
   { name: "g25pro", model: Model.gemini_25_pro },
-  // { name: "g25flash", model: Model.gemini_25_flash },
+  { name: "g25lite", model: Model.gemini_25_lite },
 
   // { name: "gpt-oss", model: Model.gpt_oss_120b },
   // { name: "41mini", model: Model.gpt_41_mini },
