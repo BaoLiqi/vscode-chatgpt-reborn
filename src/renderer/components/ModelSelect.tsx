@@ -11,13 +11,13 @@ const models = [
 
   // { name: "gpt-oss", model: Model.gpt_oss_120b },
   // { name: "41mini", model: Model.gpt_41_mini },
-  { name: "gpt5-nano", model: Model.gpt_5_nano },
-  { name: "gpt5-mini", model: Model.gpt_5_mini },
+  // { name: "gpt5-nano", model: Model.gpt_5_nano },
+  // { name: "gpt5-mini", model: Model.gpt_5_mini },
   { name: "gpt5-chat", model: Model.gpt_5_chat },
 
-  { name: "qwen", model: Model.qwen },
+  { name: "qwen3", model: Model.qwen },
   // { name: "kimiK2", model: Model.kimi },
-  { name: "dsR1", model: Model.deepseek_r1 },
+  { name: "ds31", model: Model.deepseek_31 },
 ];
 
 // Create a mapping from model to name

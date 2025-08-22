@@ -42,6 +42,8 @@ export enum Model {
   // 2.0 8.0
   gpt_5_chat = "openai/gpt-5-chat",
 
+
+  deepseek_31 = "deepseek/deepseek-chat-v3.1",
   // 0.5 2.18
   deepseek_r1 = "deepseek/deepseek-r1-0528",
   // 0.3 1.2
