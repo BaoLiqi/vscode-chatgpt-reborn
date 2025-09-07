@@ -62,6 +62,9 @@ export enum Model {
 
   sonnet = "anthropic/claude-sonnet-4",
 
+  sky = "openrouter/sonoma-sky-alpha",
+  dusk = "openrouter/sonoma-dusk-alpha",
+
   grok4 = "x-ai/grok-4",
   none = "none"
 }
