@@ -40,8 +40,7 @@ export enum Model {
   // 0.25 2
   gpt_5_mini = "openai/gpt-5-mini",
   // 2.0 8.0
-  gpt_5_chat = "openai/gpt-5-chat",
-
+  gpt_5 = "openai/gpt-5",
 
   deepseek_31 = "deepseek/deepseek-chat-v3.1",
   // 0.5 2.18

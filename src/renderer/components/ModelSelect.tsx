@@ -13,7 +13,7 @@ const models = [
   // { name: "41mini", model: Model.gpt_41_mini },
   // { name: "gpt5-nano", model: Model.gpt_5_nano },
   // { name: "gpt5-mini", model: Model.gpt_5_mini },
-  { name: "gpt5-chat", model: Model.gpt_5_chat },
+  { name: "gpt5", model: Model.gpt_5 },
 
   { name: "sky", model: Model.sky },
   { name: "dusk", model: Model.dusk },
