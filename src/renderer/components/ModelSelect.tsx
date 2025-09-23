@@ -5,21 +5,10 @@ import { Conversation, Model } from "../types";
 import Icon from "./Icon";
 
 const models = [
-  { name: "grok4", model: Model.grok4 },
-  { name: "g25pro", model: Model.gemini_25_pro },
   { name: "g25lite", model: Model.gemini_25_lite },
-
-  // { name: "gpt-oss", model: Model.gpt_oss_120b },
-  // { name: "41mini", model: Model.gpt_41_mini },
-  // { name: "gpt5-nano", model: Model.gpt_5_nano },
-  // { name: "gpt5-mini", model: Model.gpt_5_mini },
+  { name: "grok4", model: Model.grok4 },
+  { name: "grok4fast", model: Model.grok4fast },
   { name: "gpt5", model: Model.gpt_5 },
-
-  { name: "sky", model: Model.sky },
-  { name: "dusk", model: Model.dusk },
-
-  // { name: "qwen3", model: Model.qwen },
-  // { name: "kimiK2", model: Model.kimi },
   { name: "ds31", model: Model.deepseek_31 },
 ];
 

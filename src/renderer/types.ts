@@ -42,7 +42,7 @@ export enum Model {
   // 2.0 8.0
   gpt_5 = "openai/gpt-5",
 
-  deepseek_31 = "deepseek/deepseek-chat-v3.1",
+  deepseek_31 = "deepseek/deepseek-v3.1-terminus",
   // 0.5 2.18
   deepseek_r1 = "deepseek/deepseek-r1-0528",
   // 0.3 1.2
@@ -65,6 +65,7 @@ export enum Model {
   dusk = "openrouter/sonoma-dusk-alpha",
 
   grok4 = "x-ai/grok-4",
+  grok4fast = "x-ai/grok-4-fast:free",
   none = "none"
 }
 
