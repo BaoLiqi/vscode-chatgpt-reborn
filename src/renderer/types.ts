@@ -43,13 +43,14 @@ export enum Model {
   gpt_5 = "openai/gpt-5",
 
   deepseek_31 = "deepseek/deepseek-v3.1-terminus",
+  deepseek_32 = "deepseek/deepseek-v3.2-exp",
   // 0.5 2.18
   deepseek_r1 = "deepseek/deepseek-r1-0528",
   // 0.3 1.2
   qwen = "qwen/qwen3-coder",
 
   // 0.1 0.4
-  gemini_25_lite = "google/gemini-2.5-flash-lite",
+  gemini_25_lite = "google/gemini-2.5-flash-lite-preview-09-2025",
 
   // 0.3 2.5
   gemini_25_flash = "google/gemini-2.5-flash",

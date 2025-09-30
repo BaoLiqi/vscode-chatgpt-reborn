@@ -10,6 +10,7 @@ const models = [
   { name: "grok4fast", model: Model.grok4fast },
   { name: "gpt5", model: Model.gpt_5 },
   { name: "ds31", model: Model.deepseek_31 },
+  { name: "ds32", model: Model.deepseek_32 },
 ];
 
 // Create a mapping from model to name
