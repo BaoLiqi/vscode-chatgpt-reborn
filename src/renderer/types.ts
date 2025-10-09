@@ -29,11 +29,6 @@ export enum Model {
 
   gpt_35_turbo = "gpt-3.5-turbo",
 
-
-
-  // 0.1 0.5
-  gpt_oss_120b = "openai/gpt-oss-120b",
-
   // 0.05 0.4
   gpt_5_nano = "openai/gpt-5-nano",
 
@@ -44,10 +39,6 @@ export enum Model {
 
   deepseek_31 = "deepseek/deepseek-v3.1-terminus",
   deepseek_32 = "deepseek/deepseek-v3.2-exp",
-  // 0.5 2.18
-  deepseek_r1 = "deepseek/deepseek-r1-0528",
-  // 0.3 1.2
-  qwen = "qwen/qwen3-coder",
 
   // 0.1 0.4
   gemini_25_lite = "google/gemini-2.5-flash-lite-preview-09-2025",
@@ -57,16 +48,10 @@ export enum Model {
   // 1.25 10.0
   gemini_25_pro = "google/gemini-2.5-pro",
 
-  // 0.14 2.49
-  // kimi = "moonshotai/kimi-k2",
-
-  sonnet = "anthropic/claude-sonnet-4",
-
-  sky = "openrouter/sonoma-sky-alpha",
-  dusk = "openrouter/sonoma-dusk-alpha",
+  sonnet = "anthropic/claude-sonnet-4.5",
 
   grok4 = "x-ai/grok-4",
-  grok4fast = "x-ai/grok-4-fast:free",
+  grok4fast = "x-ai/grok-4-fast",
   none = "none"
 }
 
