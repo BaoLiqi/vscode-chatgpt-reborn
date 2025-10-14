@@ -8,7 +8,7 @@ const models = [
   { name: "g25lite", model: Model.gemini_25_lite },
   { name: "grok4", model: Model.grok4 },
   { name: "grok4fast", model: Model.grok4fast },
-  { name: "gpt5", model: Model.gpt_5 },
+  { name: "gpt5c", model: Model.gpt_5 },
   { name: "ds31", model: Model.deepseek_31 },
   { name: "ds32", model: Model.deepseek_32 },
 ];
