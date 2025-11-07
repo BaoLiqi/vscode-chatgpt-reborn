@@ -37,6 +37,8 @@ export enum Model {
   // 2.0 8.0
   gpt_5 = "openai/gpt-5-chat",
 
+  polaris = "openrouter/polaris-alpha",
+
   deepseek_31 = "deepseek/deepseek-v3.1-terminus",
   deepseek_32 = "deepseek/deepseek-v3.2-exp",
 
