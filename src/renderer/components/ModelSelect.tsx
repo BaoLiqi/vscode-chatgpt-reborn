@@ -6,10 +6,10 @@ import Icon from "./Icon";
 
 const models = [
   { name: "g25lite", model: Model.gemini_25_lite },
-  { name: "grok4", model: Model.grok4 },
+  // { name: "grok4", model: Model.grok4 },
   { name: "grok4fast", model: Model.grok4fast },
-  { name: "gpt5chat", model: Model.gpt_5 },
-  { name: "polaris", model: Model.polaris },
+  { name: "gpt51chat", model: Model.gpt_51chat },
+  { name: "gpt51", model: Model.gpt_51 },
   // { name: "ds31", model: Model.deepseek_31 },
   { name: "ds32", model: Model.deepseek_32 },
 ];

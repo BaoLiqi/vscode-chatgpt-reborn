@@ -35,7 +35,8 @@ export enum Model {
   // 0.25 2
   gpt_5_mini = "openai/gpt-5-mini",
   // 2.0 8.0
-  gpt_5 = "openai/gpt-5-chat",
+  gpt_51 = "openai/gpt-5.1",
+  gpt_51chat = "openai/gpt-5.1-chat",
 
   polaris = "openrouter/polaris-alpha",
 
