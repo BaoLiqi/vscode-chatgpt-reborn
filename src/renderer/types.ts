@@ -34,7 +34,7 @@ export enum Model {
 
   // 0.25 2
   gpt_5_mini = "openai/gpt-5-mini",
-  // 2.0 8.0
+  // 1.25 10
   gpt_51 = "openai/gpt-5.1",
   gpt_51chat = "openai/gpt-5.1-chat",
 
@@ -45,16 +45,14 @@ export enum Model {
 
   // 0.1 0.4
   gemini_25_lite = "google/gemini-2.5-flash-lite-preview-09-2025",
+  // 2 12
+  gemini_3_pro_preview = "google/gemini-3-pro-preview",
 
-  // 0.3 2.5
-  gemini_25_flash = "google/gemini-2.5-flash",
-  // 1.25 10.0
-  gemini_25_pro = "google/gemini-2.5-pro",
 
   sonnet = "anthropic/claude-sonnet-4.5",
 
   grok4 = "x-ai/grok-4",
-  grok4fast = "x-ai/grok-4-fast",
+  grok41fast = "x-ai/grok-4.1-fast",
   none = "none"
 }
 
