@@ -40,14 +40,15 @@ export enum Model {
 
   polaris = "openrouter/polaris-alpha",
 
-  deepseek_31 = "deepseek/deepseek-v3.1-terminus",
-  deepseek_32 = "deepseek/deepseek-v3.2-exp",
+  deepseek_32s = "deepseek/deepseek-v3.2-speciale",
+  deepseek_32 = "deepseek/deepseek-v3.2",
+
+
 
   // 0.1 0.4
   gemini_25_lite = "google/gemini-2.5-flash-lite-preview-09-2025",
   // 2 12
   gemini_3_pro_preview = "google/gemini-3-pro-preview",
-
 
   sonnet = "anthropic/claude-sonnet-4.5",
 

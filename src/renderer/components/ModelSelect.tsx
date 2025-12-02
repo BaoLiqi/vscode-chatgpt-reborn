@@ -9,9 +9,9 @@ const models = [
   { name: "g3pp", model: Model.gemini_3_pro_preview },
   // { name: "grok4", model: Model.grok4 },
   { name: "grok41fast", model: Model.grok41fast },
-  { name: "gpt51chat", model: Model.gpt_51chat },
+  // { name: "gpt51chat", model: Model.gpt_51chat },
   { name: "gpt51", model: Model.gpt_51 },
-  // { name: "ds31", model: Model.deepseek_31 },
+  { name: "ds32s", model: Model.deepseek_32s },
   { name: "ds32", model: Model.deepseek_32 },
 ];
 
